@@ -1,0 +1,141 @@
+mommy_club:
+    resource: "@MommyClubBundle/Controller/"
+    type:     annotation
+    prefix:   /club/
+
+mommy_ui:
+    resource: "@MommyUIBundle/Controller/"
+    type:     annotation
+    prefix:   /ui/
+
+mommy_security:
+    resource: "@MommySecurityBundle/Controller/"
+    type:     annotation
+    prefix:   /login/
+
+signup:
+    path:     /inscription
+    defaults: { _controller: MommySecurityBundle:Default:signup }
+
+login_err:
+    path:     /login
+    defaults: { _controller: MommySecurityBundle:Default:login }
+
+login:
+    path:     /
+    defaults: { _controller: MommySecurityBundle:Default:login }
+
+login_check:
+    path: /connexion
+
+logout:
+    pattern:   /deconnexion
+
+mommy_ui:
+    resource: "@MommyUIBundle/Controller/"
+    type:     annotation
+    prefix:   /ui/
+
+mommy_profil:
+    resource: "@MommyProfilBundle/Controller/"
+    type:     annotation
+    prefix:   /profil/
+
+mommy_error:
+    resource: "@MommyErrorBundle/Controller/"
+    type:     annotation
+    prefix:   /error/
+
+mommy_blog:
+    resource: "@MommyBlogBundle/Controller/"
+    type:     annotation
+    prefix:   /blog/
+
+mommy_box:
+    resource: "@MommyBoxBundle/Controller/"
+    type:     annotation
+    prefix:   /box/
+
+mommy_map:
+    resource: "@MommyMapBundle/Controller/"
+    type:     annotation
+    prefix:   /map/
+
+mommy_page:
+    resource: "@MommyPageBundle/Controller/"
+    type:     annotation
+    prefix:   /page/
+
+mommy_play:
+    resource: "@MommyPlayBundle/Controller/"
+    type:     annotation
+    prefix:   /play/
+
+mommy_pub:
+    resource: "@MommyPubBundle/Controller/"
+    type:     annotation
+    prefix:   /pub/
+
+mommy_question:
+    resource: "@MommyQuestionBundle/Controller/"
+    type:     annotation
+    prefix:   /ask/
+
+mommy_search:
+    resource: "@MommySearchBundle/Controller/"
+    type:     annotation
+    prefix:   /recherche/
+
+mommy_shop:
+    resource: "@MommyShopBundle/Controller/"
+    type:     annotation
+    prefix:   /shop/
+
+mommy_cgu:
+    resource: "@MommyCGUBundle/Controller/"
+    type:     annotation
+    prefix:   /cgu/
+
+mommy_charte:
+    resource: "@MommyCharteBundle/Controller/"
+    type:     annotation
+    prefix:   /charte/
+
+mommy_legal:
+    resource: "@MommyLegalBundle/Controller/"
+    type:     annotation
+    prefix:   /mentions-legales/
+
+mommy_nous:
+    resource: "@MommyNousBundle/Controller/"
+    type:     annotation
+    prefix:   /qui-sommes-nous/
+
+mommy_feedback:
+    resource: "@MommyFeedbackBundle/Controller/"
+    type:     annotation
+    prefix:   /feedback/
+
+mommy_home:
+    resource: "@MommyHomeBundle/Controller/"
+    type:     annotation
+    prefix:   /home/
+
+MommyStatsBundle:
+    resource: "@MommyStatsBundle/Controller/"
+    type:     annotation
+    prefix:   /stats/
+
+MommySondageBundle:
+    resource: "@MommySondageBundle/Controller/"
+    type:     annotation
+    prefix:   /sondage/
+
+MommyNotificationBundle:
+    resource: "@MommyNotificationBundle/Controller/"
+    type:     annotation
+    prefix:   /notification/
+
+oneup_uploader:
+    resource: .
+    type: uploader

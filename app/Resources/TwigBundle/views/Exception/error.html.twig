@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>MommyVille - {{ status_code }}</title>
+        {% block stylesheets %}
+        <link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" media="all"/>
+        <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.maxlength.css') }}" media="all" />
+        <link rel="stylesheet" type="text/css" href="{{ asset('/css/select2-3.4.8.css') }}">
+        {% stylesheets '@MommyUIBundle/Resources/public/css/*.css' filter='yui_css' output='css/main.css' %}
+        <link rel="stylesheet" type="text/css" media="screen" href="{{ asset(asset_url) }}" />
+        {% endstylesheets %}
+        {% endblock %}
+        <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+        <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon-iphone-60x60.png') }}">
+        <link rel="apple-touch-icon" sizes="60x60" href="{{ asset('apple-touch-icon-ipad-76x76.png') }}">
+        <link rel="apple-touch-icon" sizes="114x114" href="{{ asset('apple-touch-icon-iphone-retina-120x120.png') }}">
+        <link rel="apple-touch-icon" sizes="144x144" href="{{ asset('apple-touch-icon-ipad-retina-152x152.png') }}">
+    </head>
+    <body>
+        <header>
+            <div id="loading"></div>
+            <div id="notification">{% block notification %}{% endblock %}</div>
+        </header>
+        <nav id="menu">{% block menu %}{% endblock %}</nav>
+        <div id="left">{% block left %}{% endblock %}</div>
+        <div id="right">{% block right %}{% endblock %}</div>
+        <div id="center">
+			<div class='block'>
+				<div class='content' style='min-height: 434px;'>
+					<img class='left' alt='' src="{{ asset('/img/probleme.jpg') }}" />
+					<h1 class='without-avatar'>Un erreur {{ status_code }} s'est produite</h1>
+					<h2>qu'est-ce que c'est "une erreur {{ status_code }}" ?</h2>
+					<p>Cela signifie :<br/>
+					{{ status_text }}<br/>
+					<br/>
+					Pour vous, ca ne veut peut-être pas dire grand chose, mais n'ayez crainte, nous sommes déjà au courant, nous savons l'interprêter et travaillons sur ce problème.<br/>
+					<br/>
+					Vous pouvez retourner l'accueil de MommyVille en cliquant <a href='/'>ici</a>.</p>
+				</div>
+			</div
+        </div>
+        <div id="footerSlideContainer">
+            <div id="footerSlideButton"></div>
+            <div id="footerSlideContent">
+                <div id="footerSlideText">
+                </div>
+            </div>
+        </div>
+        <footer>
+            <a href="#{{ path('mommy_nous') }}"><p>Qui sommes-nous ?</a> | <a href="#{{ path('mommy_legal') }}">Mentions légales</a> | <a href="#{{ path('mommy_cgu') }}">Conditions générales d'utilisation</a> | <a href="#{{ path('mommy_charte') }}">Charte de bonne conduite</a></p>
+            {% block footer %}{% endblock %}
+        </footer>
+        <script src="//code.jquery.com/jquery-1.11.0.min.js"></script>
+        <script src="//code.jquery.com/ui/1.10.3/jquery-ui.min.js"></script>
+        <script src="//maps.googleapis.com/maps/api/js?key=AIzaSyCTmocoVBfMnE4X2uZAei-WwozRK9_YJ54&sensor=false&libraries=places"></script>
+        <script src="//cdn.jsdelivr.net/select2/3.4.8/select2.min.js"></script>
+        <script src="//cdn.jsdelivr.net/select2/3.4.8/select2_locale_fr.js"></script>
+        <script src="{{ asset('js/jquery.ui.datepicker-fr.js') }}"></script>
+        <script src="{{ asset('/js/jquery.geocomplete.min.js') }}"></script>
+        <script src="{{ asset('/js/jquery.plugin.min.js') }}"></script>
+        <script src="{{ asset('/js/jquery.maxlength.min.js') }}"></script>
+        <script src="{{ asset('/js/jquery.maxlength-fr.js') }}"></script>
+        <script src="{{ asset('/js/jquery.fancybox.pack.js') }}?v=2.1.5"></script>
+        <script src="{{ asset('/js/jquery.fancybox-buttons.js') }}"></script>
+        <script rc="{{ asset('/js/jquery.fancybox-thumbs.js') }}"></script>
+        {% javascripts '@MommyUIBundle/Resources/public/js/*.js' filter='yui_js' output='js/main.js' %}
+        <script src="{{ asset(asset_url) }}"></script>
+        {% endjavascripts %}
+        <script type="text/javascript">(function(w,d){var a=function(){var b=d.createElement('script');b.type='text/javascript';if(undefined!==b.setAttribute){b.setAttribute('async','async');}b.src='//'+((w.location.protocol==='https:')?'s3.amazonaws.com/cdx-radar/':'radar.cedexis.com/')+'01-14230-radar10.min.js';d.body.appendChild(b);};if(w.addEventListener){w.addEventListener('load',a,false);}else if(w.attachEvent){w.attachEvent('onload',a);}}(window,document));</script>
+        {% block javascripts %}
+        {% endblock %}
+    </body>
+</html>

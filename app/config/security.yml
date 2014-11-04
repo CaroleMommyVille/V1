@@ -1,0 +1,54 @@
+security:
+    encoders:
+        Mommy\SecurityBundle\Entity\User: 
+            algorithm: bcrypt
+            cost: 13
+
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    providers:
+        main:
+            entity: 
+                class: Mommy\SecurityBundle\Entity\User
+                property: username
+
+    firewalls:
+        dev:
+            pattern:  ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+        login_firewall:
+            pattern:   ^/$|^/login|^/ui|^/cgu/|^/qui-sommes-nous/|^/mentions-legales/|^/charte/|^/feedback/|^/error/|^/map/stations.json
+            anonymous: ~
+        main:
+            pattern:   ^/.*
+            form_login:
+                check_path:      login_check
+                success_handler: mommy.security.authentication_handler
+                failure_handler: mommy.security.authentication_handler
+                post_only: true
+                default_target_path: /
+                always_use_default_target_path: false
+                use_referer: true
+                target_path_parameter: _target_path
+                failure_path: null
+                username_parameter: _username
+                password_parameter: _password
+                csrf_parameter: _csrf_token
+                intention: authenticate
+            logout: 
+                path: /deconnexion
+                target: /
+            remember_me:
+                key:      "%secret%"
+                lifetime: 31536000 # 365 jours en secondes
+                path:     /
+                domain:   ~
+
+    access_control:
+#        - { path: ^/identification$|^/inscription|^/confirm|^/error/|^/profil/, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: ^/, roles: ROLE_USER }
+        - { path: ^/$|^/login|^/ui|^/cgu/|^/qui-sommes-nous/|^/mentions-legales/|^/charte/|^/feedback/|^/error/|^/map/stations.json, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+#        - { path: ^/login$, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
+#        - { path: ^/, roles: ROLE_USER, requires_channel: https }
