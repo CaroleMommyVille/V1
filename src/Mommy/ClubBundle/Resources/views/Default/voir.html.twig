@@ -1,0 +1,261 @@
+<div class='block'>
+	<div class='content' id='club'>
+		<table>
+			<tr>
+				<td rowspan='4' width='300'>
+					{% if club.photo|length > 0 %}
+					<div style='background-image:url({{ club.photo }})' class='upload' id='photo'>
+					{% else %}
+					<div style='background-image:url(/img/logos/mv-landeau-1000x1077.jpg)' class='upload' id='photo'>
+					{% endif %}
+					</div>
+				</td>
+				<th>
+					<a href="#/club/editer/{{ club.id }}"><div class='edit right'></div></a>
+					<h1 class='without-avatar'>{{ club.name }}</h1>
+				</th>
+			</tr>
+			<tr>
+				<th>
+					<h2>{% if club.address|length > 0 %}{% if club.address.literal|length > 0 %}{{ club.address.literal }}{% endif %}{% endif %}</h2>
+				</th>
+			</tr>
+			<tr>
+				<td>
+					<h2>{{ club.descfr|raw }}</h2>
+				</td>
+			</tr>
+			<tr>
+				<td>
+					{% set keys = club.keys|split(' ') %}
+					{% for word in keys %}
+					{% if word|length > 0 %}<span class='keywords'>#{{ word }}</span>{% endif %}
+					{% endfor %}
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<div class='block'>
+	<div id='page-likes' class='carousel'>
+		<div data-id='{{ club.id }}' class='page-like left'>{{ page_like_nb }}</div>
+		<div class="indicator"></div>
+		<div class="wrap">
+			<ul>
+				{% for user in members %}
+				{% if user.member.photo|length > 0 %}
+				<li><img src='{{ user.member.photo }}' class='vignette who' title='{{ user.member.firstname }} {{ user.member.lastname|slice(0,1) }}. - {{ user.member.age }} ans' /></li>
+				{% else %}
+				<li><img src='/img/logos-mv-landeau-1000x1077.jpg' class='vignette who' title='{{ user.member.firstname }} {{ user.member.lastname|slice(0,1) }}. - {{ user.member.age }} ans' /></li>
+				{% endif %}
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+</div>
+<div class='block'>
+	{% if full == true %}
+	<form id='message'>
+		{{ form_widget(form.content) }}
+		{{ form_widget(form.image) }}
+		{{ form_widget(form.preview) }}
+		<div id='post-buttons'>
+			<span id='post-picture' title='Ajouter une photo au message'></span>
+{#			<span id='post-plus' title='Tagger une personne'></span> #}
+{#			<span id='post-question' title='Poster une question sur MommyAsk'></span> #}
+			<span id='post-publish' title='Publier le message sur ce mur'></span>
+		</div>
+		{{ form_rest(form) }}
+	</form>
+	<div id='post-new-preview' class='hidden'>
+		<img id='post-new-preview-image' class='hidden left' src='' />
+		<iframe src='' id='post-new-preview-video' class='hidden left' />
+		<p><a href='' id='post-new-preview-url'></a></p>
+		<p id='post-new-preview-text'></p>
+	</div>
+	<div id='new-msg'></div>
+	{% endif %}
+	{% if messages is defined %}
+	{% for id, msg in messages %}
+	{% include 'MommyClubBundle:Post:post.html.twig' %}
+	{% endfor %}
+	{% endif %}
+</div>
+<script>
+{% if full == false %}
+$(".page-like").click(function(event) {
+	event.preventDefault();
+	$("#loading").show();
+	var id = $(this).attr('data-id');
+	$.ajax({
+		url: '/club/rejoindre/'+id,
+		type: 'GET',
+	})
+	.done(function (data) {
+		$("#loading").hide();
+		window.location.hash = '#/club/voir/'+id+'?refresh='+Math.random();
+	})
+	.fail(function (xhr, status, error) {
+console.log(xhr.responseText);
+		$("#loading").hide();
+	});
+});
+{% else %}
+function previewPhoto(input) {
+	if (input.files && input.files[0]) {
+		var reader = new FileReader();
+		reader.onload = function (e) {
+			$('#post-new-preview-image').css("background-image", "url("+e.target.result+")");
+			$('#post-new-preview').show();
+			$('#post-new-preview-image').show();
+		}
+		reader.readAsDataURL(input.files[0]);
+	}
+}
+
+$("#message_image").change(function(){
+	previewPhoto(this);
+});
+
+$('#post-buttons > span').tooltip();
+$('#post-picture').click(function () {
+	$('#message_image').toggle();
+});
+function publishPost() {
+	if ($('#message_content').val().length == 0) return false;
+	$("#loading").show();
+	$.ajax({
+		url: '{{ action }}',
+		data: new FormData($("#message")[0]),
+		type: 'POST',
+		processData: false,
+		contentType: false
+	})
+	.done(function (data) {
+		$("#new-msg").stop().prepend(data).fadeIn('slow');
+		$("#message_content").val('');
+		$("#message_image").val('').hide();
+		$("#post-new-preview-video").hide();
+		$("#post-new-preview-image").hide();
+		$("#post-new-preview").hide();
+		$("#loading").hide();
+		$("#message_preview").val('');
+	})
+	.fail(function (xhr, status, error) {
+console.log(xhr.responseText);
+		validationDialog(xhr.responseText, '');
+		$("#message_content").val('');
+		$("#loading").hide();
+	});
+}
+function quickImagePreview(i) {
+    $.ajax({
+    	url: '/ui/lien/'+link.id+'/image',
+    	type: 'POST',
+    	data: 'image='+encodeURIComponent($(i).attr("src")),
+    }).done(function (data) {
+    	$("#post-new-preview-image").attr('src', data.image).show();
+    }).fail(function (xhr, status, error){
+console.log(xhr.responseText);
+    });
+}
+function quickPreview(d) {
+    $.ajax({
+    	url: '/ui/lien/ajouter',
+    	type: 'POST',
+    	data: d,
+    }).done(function (data) {
+		link = data;
+		$("#message_preview").val(link.id);
+    	$("#post-new-preview-url").attr('href', link.url).text(link.title);
+    	$("#post-new-preview-text").text(decodeURIComponent(link.description));
+    	if (link.video.length)
+    		$("#post-new-preview-video").attr('src', link.video).show();
+    	$("#post-new-preview").stop().show();
+    }).fail(function (xhr, status, error){
+console.log(xhr.responseText);
+		link = false;
+    });
+}
+var link = null;
+$("#message_content").keypress(function(e){
+	var code = (e.keyCode ? e.keyCode : e.which);
+	if (code == 13) {
+		publishPost();
+	}
+}).liveUrl({
+	findLogo: true,
+	addImage: function(image) {
+		quickImagePreview(image);
+	},
+	success: function(data) {
+		quickPreview(data);
+	},
+});
+$("#post-publish").click(function(event) {
+	event.preventDefault();
+	publishPost();
+});
+
+function publishComment(elt) {
+	if (elt.val().length == 0) return false;
+	$("#loading").show();
+	$.ajax({
+		url: '/club/comment/'+$(elt).attr('id'),
+		type: 'POST',
+		data: 'comment='+encodeURIComponent(elt.val()),
+	})
+	.done(function (data) {
+		$(elt).parent().after(data);
+		var count = $('#nb-'+$(elt).attr('id')).text();
+		count++;
+		$('#nb-'+$(elt).attr('id')).text(count);
+		$('#'+$(elt).attr('id')).empty();
+		$('#'+$(elt).attr('id')).parent().toggle();
+		elt.val('');
+		$("#loading").hide();
+	})
+	.fail(function (xhr, status, error) {
+console.log(xhr.responseText);
+		validationDialog(xhr.responseText, '');
+		$('#'+$(elt).attr('id')).empty();
+		$("#loading").hide();
+	});
+}
+
+function like(elt) {
+	$("#loading").show();
+	var id = elt.attr('id');
+	$.ajax({
+		url: '/club/like/'+id,
+		type: 'GET',
+	})
+	.done(function (data) {
+		$('#nb-'+id).text(data);
+		$("#loading").hide();
+	})
+	.fail(function (xhr, status, error) {
+console.log(xhr.responseText);
+		$("#loading").hide();
+	});
+}
+
+$(document).on('click', ".like", function(event) {
+	event.preventDefault();
+	like($(this));
+}).on('click', ".comment", function(event) {
+	event.preventDefault();
+	$('#'+$(this).attr('data-form')).toggle();
+	$('#'+$(this).attr('data-form')+' > textarea').focus();
+	$(".comment-input").each(function() {
+		$(this).keypress(function(e){
+			var code = (e.keyCode ? e.keyCode : e.which);
+			if (code == 13) {
+				publishComment($(this));
+			}
+		});
+	});
+});
+{% endif %}
+$('.who').tooltip();
+</script>

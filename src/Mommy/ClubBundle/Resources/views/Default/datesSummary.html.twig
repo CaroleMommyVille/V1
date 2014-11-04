@@ -1,0 +1,49 @@
+<div>
+	{% if long == true %}
+	<h1>Les Mommy<span>Dates</span></h1>
+	{% else %}
+	<a href='#{{ path('club-dates') }}'><h1>Mes Mommy<span>Dates</span></h1></a>
+	{% endif %}
+	{% if dates|length > 0 %}
+	<table>
+		{% for date in dates %}
+		<tr data-id='{{ date.id }}' class='club-date'>
+			<th>{{ date.name }}</th>
+			<td>{{ date.date|date("d/m/Y") }}</td>
+		</tr>
+		{% if long == true %}
+		<tr data-id='{{ date.id }}' class='club-date'>
+			<td colspan='2'>
+			> {{ date.address.literal }}
+			</td>
+		</tr>
+		<tr data-id='{{ date.id }}' class='club-date'>
+			<td colspan='2'>
+			{{ date.description }}
+			</td>
+		</tr>
+		{% endif %}
+		{% endfor %}
+	</table>
+	{% endif %}
+	<div class='clear'></div>
+	<script>
+	$(".club-date").click(function (event) {
+		event.preventDefault();
+		$("#loading").show();
+		$.ajax({
+			url: '/club/date/'+$(this).attr('data-id'),
+			type: 'GET',
+		})
+		.done(function (data) {
+			$("#center").empty().append(data).fadeIn('slow');
+			$("#loading").hide();
+		})
+		.fail(function (xhr, status, error) {
+	console.log(xhr.responseText);
+			validationDialog(xhr.responseText, '');
+			$("#loading").hide();
+		});
+	});
+	</script>
+</div>

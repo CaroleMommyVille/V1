@@ -1,0 +1,31 @@
+{% if msg.author.photo|length > 0 %}
+<img src='{{ msg.author.photo }}' class='avatar small'/>
+{% else %}
+<img src='{{ asset('/img/logos/mv-landeau-64x64.jpg') }}' class='avatar small'/>
+{% endif %}
+<div class='content with-avatar'>
+	<h1 class='with-date'>{{ msg.author.firstname }} {{ msg.author.lastname|slice(0,1) }}.</h1><h3>{{ msg.date }}</h3>
+	<div>
+		{% if msg.photo|length > 0 %}
+		<p><a href='{{ msg.photo }}' title='{{ msg.content }}' class='fancybox'><img src='{{ msg.photo }}' class='post-photo left' /></a></p>
+		{% endif %}
+		<p>{{ msg.content }}</p>
+		{% if previews[msg.id] is defined %}
+		{% if previews[msg.id]|length > 0 %}
+		<div class='msg-embedded-preview'>
+			{% if previews[msg.id].image|length > 0 %}<img class='left' src='{{ previews[msg.id].image }}' />{% endif %}
+			{% if previews[msg.id].video|length > 0 %}<iframe src='{{ previews[msg.id].video }}'  class='left' />{% endif %}
+			<p><a href='{{ previews[msg.id].url }}'>{{ previews[msg.id].title }}</a></p>
+			<p>{{ previews[msg.id].text }}</p>
+		</div>
+		{% endif %}
+		{% endif %}
+		<p class='comments'><span class='like' id='like-{{ msg.id }}'></span> <span id='nb-like-{{ msg.id }}'>{{ likes[msg.id] }}</span> <a class='comment' data-form='form-{{ msg.id }}'>Commenter</span> (<span id='nb-comment-{{ msg.id }}'>{{ comments[msg.id]|length }}</span>)</a></p>
+		<form id='form-{{ msg.id }}' class='hidden'>
+		<textarea id="comment-{{ msg.id }}" required="required" placeholder="Commencer à écrire" class="comment-input"></textarea>
+		</form>
+		{% for comment in comments[msg.id] %}
+		{% include 'MommyClubBundle:Post:comment.html.twig' %}
+		{% endfor %}
+	</div>
+</div>

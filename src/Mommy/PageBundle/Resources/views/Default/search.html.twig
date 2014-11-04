@@ -1,0 +1,24 @@
+<table>
+	{% for pro in pros %}
+	<tr data-id='{{ pro.id }}' class='page-search'>
+		<td rowspan='2'>
+			{% if pro.photo|length > 0 %}
+			<img src='{{ pro.photo }}' class='miniature' />
+			{% else %}
+			<img src='/img/logos/mv-landeau-1000x1077.jpg' class='miniature' />
+			{% endif %}
+			</div>
+		</td>
+		<th>{{ pro.name }}</th>
+		<td>{{ pro.activity.descfr }}</td>
+	</tr>
+	<tr>
+		<td colspan='2'>{{ pro.address.literal }}</td>
+	</tr>
+	{% endfor %}
+</table>
+<script>
+$(".page-search").click(function() {
+	window.location.hash = '#/page/voir/'+$(this).attr('data-id');
+});
+</script>

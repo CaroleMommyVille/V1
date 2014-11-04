@@ -1,0 +1,13 @@
+parameters:
+    amazonS3.amazon_s3.class: AmazonS3
+    amazonS3.photo_uploader.class: Mommy\UIBundle\Service\PhotoUploader
+    helios.opencloud.class: OpenCloud\OpenStack
+    helios.photo_uploader.class: Mommy\UIBundle\Service\PhotoUploader
+
+services:
+    amazonS3.photo_uploader:
+        class: %amazonS3.photo_uploader.class%
+        arguments: [@aws_filesystem]
+    helios.photo_uploader:
+        class: %helios.photo_uploader.class%
+        arguments: [@helios_filesystem]

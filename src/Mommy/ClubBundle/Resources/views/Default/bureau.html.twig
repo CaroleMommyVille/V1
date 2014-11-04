@@ -1,0 +1,19 @@
+<div>
+	<h1>Le <span>Bureau</span></h1>
+	<div>
+		{% for member in bureau %}
+		{% if member|length > 0 %}
+		<div class='bureau club-item' data-id='{{ member.id }}'>
+			<img src='{{ member.photo }}' class='miniature' />
+			<br/>
+			{{ member.firstname }} {{ member.lastname|slice(0,1) }}.
+		<div>
+		{% endif %}
+		{% endfor %}
+	</div>
+	<script>
+	$(".bureau").click(function () {
+		window.location.hash = '#/profil/voir/'+$(this).attr('data-id');
+	});
+	</script>
+</div>

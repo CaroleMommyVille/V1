@@ -1,0 +1,8 @@
+<div>
+	<h1>Mes Mommy<span>Pages</span></h1>
+	<ul>
+	{% for pro in pros %}
+	<li><a href='#/page/{{ pro.id }}'>{{ pro.name }}</a></li>
+	{% endfor %}
+	</ul>
+</div>

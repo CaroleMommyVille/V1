@@ -1,0 +1,15 @@
+{% extends '::base.html.twig' %}
+
+{% block title %} :: Personne qui n'a rien à faire là{% endblock %}
+
+{% block center %}
+<p>Un nouvel inscrit se demande ce qu'il fait là :</p>
+<ul>
+	<li><strong>Nom :</strong> {{ lastname }}</li>
+	<li><strong>Prénom :</strong> {{ firstname }}</li>
+	<li><strong>E-mail :</strong> {{ email }}</li>
+	<li><strong>Message :</strong> {{ message }}</li>
+	<li><strong>A conserver :</strong> {{ keep }}</li>
+</ul>
+Le cerbère de service.
+{% endblock %}

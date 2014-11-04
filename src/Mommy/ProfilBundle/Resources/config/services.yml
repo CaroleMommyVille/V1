@@ -1,0 +1,3 @@
+services:
+    compatible:
+        class: Mommy\ProfilBundle\Controller\CompatibleController

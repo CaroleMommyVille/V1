@@ -1,0 +1,51 @@
+<h2>Ma famille</h2>
+<table class='small-block'>
+	<tbody>
+		<tr>
+			<th class='left'>Je suis déjà maman de</th>
+			<td>{{ form_widget(form.size) }}</td>
+			<td class='form_error'>{{ form_errors(form.size) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>J'envisage d'en faire un nouveau</th>
+			<td>
+				<ol id='new' class='selectable'>
+					<li class='ui-widget-content' id='oui'>Oui</li>
+					<li class='ui-widget-content' id='non'>Non</li>
+				</ol>
+				{{ form_widget(form.new) }}
+			</td>
+			<td class='form_error'>{{ form_errors(form.new) }}</td>
+		</tr>
+		<tr id='when' class='hidden'>
+			<th class='left'>Quand est-ce que j'envisage de tomber enceinte à nouveau ?</th>
+			<td>{{ form_widget(form.when) }}</td>
+			<td class='form_error'>{{ form_errors(form.when) }}</td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr><th align='left'></th><td align='right'><br/>{{ form_rest(form) }}<input type='submit' class='btn-style right' id='next' value='Suivant >' /></td></tr>
+	</tfoot>
+</table>
+<script>
+$("#famille_when").select2({
+	minimumResultsForSearch: -1,
+});
+
+$("#famille_size").select2({
+	minimumResultsForSearch: -1,
+});
+
+$(".selectable").selectable({
+	selected: function (event, ui) {
+		$("input#famille_"+ui.selected.parentNode.id).val(ui.selected.id);
+		if (ui.selected.id == 'oui')
+			$("#when").show();
+		else
+			$("#when").hide();
+	}
+});
+
+if ($("#famille_new").val())
+	$("#"+$("#famille_new").val()).addClass("ui-selected");
+</script>

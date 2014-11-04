@@ -1,0 +1,25 @@
+<div>
+	<h1>Mes Mommy<span>Clubs</span></h1>
+	<div>
+		{% if clubs|length > 0 %}
+		{% for club in clubs %}
+		<div data-id='{{ club.id }}' class='club-item'>
+			<img src='{{ club.photo }}' class='miniature' />
+			<br/>
+			{{ club.name }}
+		</div>
+		{% endfor %}
+		{% endif %}
+		<div class='right'>
+			<a href='#{{ path('club-my') }}' class='dark'>Voir tous mes MommyClubs</a>
+			<br/><br/>
+			<a href='#{{ path('club-all') }}' class='dark'>Voir tous les MommyClubs</a>
+		</div>
+	</div>
+	<script>
+	$(document).on('click', '.club-item', function () {
+		var id = $(this).attr('data-id');
+		window.location.hash = '#/club/voir/'+id;
+	});
+	</script>
+</div>

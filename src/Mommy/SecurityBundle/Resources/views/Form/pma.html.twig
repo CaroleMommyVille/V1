@@ -1,0 +1,336 @@
+<h2>Ma PMA</h2>
+<table class='small-block'>
+	<tbody id='step1'>
+		<tr>
+			<th class='left'>Je suis déjà enceinte ?</th>
+			<td>
+				<ol id='pregnant' class='selectable'>
+					<li class='ui-widget-content' id='oui'>Oui</li>
+					<li class='ui-widget-content' id='non'>Non</li>
+				</ol>
+				{{ form_widget(form.pregnant) }}
+			</td>
+			<td class='form_error'>{{ form_errors(form.pregnant) }}</td>
+		</tr>
+		<tr id='calendrier' class='hidden'>
+			<th class='left'>Ma date d'accouchement</th>
+			<td>{{ form_widget(form.date) }}</td>
+			<td class='form_error'>{{ form_errors(form.date) }}</td>
+		</tr>
+		<tr id='amenorrhee' class='hidden'>
+			<th class='left'>Mon nombre de semaines d'aménorrhée<br/><span class='hint'>Nombre de semaines depuis les dernières règles</span></th>
+			<td>{{ form_widget(form.amenorrhee) }}</td>
+			<td class='form_error'>{{ form_errors(form.amenorrhee) }}</td>
+		</tr>
+		<tr><td colspan='3' style='text-align:right;'><br/><input type='button' class='btn-style right' id='b_step1' value='Suivant >' /></td></tr>
+	</tbody>
+	<tbody id='step2' class='hidden'>
+{% if choices.since == true %}
+		<tr>
+			<th class='left'>J'ai essayé de faire un bébé pendant ...</th>
+			<td>{{ form_widget(form.since) }}</td>
+			<td class='form_error'>{{ form_errors(form.since) }}</td>
+		</tr>
+{% endif %}
+		<tr>
+			<th class='left'>Mes problèmes gynécos<br/><span class='hint'>Votre réponse n'est pas proposée ? Saisissez la directement</span></th>
+			<td>{{ form_widget(form.PathologyGyneco) }}</td>
+			<td class='form_error'>{{ form_errors(form.PathologyGyneco) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>Mes facteurs de risque<br/><span class='hint'>Votre réponse n'est pas proposée ? Saisissez la directement</span></th>
+			<td>{{ form_widget(form.RiskFactor) }}</td>
+			<td class='form_error'>{{ form_errors(form.RiskFactor) }}</td>
+		</tr>
+		<tr><td colspan='3' style='text-align:right;'><br/><input type='button' class='btn-style right' id='b_step2' value='Suivant >' /></td></tr>
+	</tbody>
+	<tbody id='step3' class='hidden'>
+		<tr>
+			<th class='left'>J'ai fait un traitement de stimulation ovarienne ?</th>
+			<td>
+				<ol id='stimulation' class='selectable'>
+					<li class='ui-widget-content' id='oui'>Oui</li>
+					<li class='ui-widget-content' id='non'>Non</li>
+				</ol>
+				{{ form_widget(form.stimulation) }}
+			</td>
+			<td class='form_error'>{{ form_errors(form.stimulation) }}</td>
+		</tr>
+		<tr id='StimulationLength' class='hidden'>
+			<th class='left'>Combien de temps a-t-il duré ?</th>
+			<td>{{ form_widget(form.StimulationLength) }}</td>
+			<td class='form_error'>{{ form_errors(form.StimulationLength) }}</td>
+		</tr>
+		<tr id='stimulateurs' class='hidden'>
+			<th class='left'>Quel ont été mes stimulateurs d'ovulation ?<br/><span class='hint'>Votre réponse n'est pas proposée ? Saisissez la directement</span></th>
+			<td>{{ form_widget(form.OvulationStimulator) }}</td>
+			<td class='form_error'>{{ form_errors(form.OvulationStimulator) }}</td>
+		</tr>
+		<tr id='pompe' class='hidden'>
+			<th class='left'>J'ai porté une micropompe à GnRH ?</th>
+			<td>
+				<ol id='pump' class='selectable'>
+					<li class='ui-widget-content' id='oui'>Oui</li>
+					<li class='ui-widget-content' id='non'>Non</li>
+				</ol>
+				{{ form_widget(form.pump) }}
+			</td>
+			<td class='form_error'>{{ form_errors(form.pump) }}</td>
+		</tr>
+		<tr id='side_PumpSideEffect' class='hidden'>
+			<th class='left'>J'ai eu des effets secondaires à ma stimulation ?</th>
+			<td>
+				<ol id='effet' class='selectable'>
+					<li class='ui-widget-content' id='oui'>Oui</li>
+					<li class='ui-widget-content' id='non'>Non</li>
+				</ol>
+				{{ form_widget(form.effet) }}
+			</td>
+			<td class='form_error'>{{ form_errors(form.effet) }}</td>
+		</tr>
+		<tr id='side_PumpSideEffects' class='hidden'>
+			<th class='left'>Quels sont les effets secondaires que j'ai eus ?<br/><span class='hint'>Votre réponse n'est pas proposée ? Saisissez la directement</span></th>
+			<td>{{ form_widget(form.PumpSideEffect) }}</td>
+			<td class='form_error'>{{ form_errors(form.PumpSideEffect) }}</td>
+		</tr>
+		<tr><td colspan='3' style='text-align:right;'><br/><input type='button' class='btn-style right' id='b_step3' value='Suivant >' /></td></tr>
+	</tbody>
+	<tbody id='step4' class='hidden'>
+		<tr>
+			<th class='left'>J'ai essayé des méthodes douces ?</th>
+			<td>
+				<ol id='soft' class='selectable'>
+					<li class='ui-widget-content' id='oui'>Oui</li>
+					<li class='ui-widget-content' id='non'>Non</li>
+				</ol>
+				{{ form_widget(form.soft) }}
+			</td>
+			<td class='form_error'>{{ form_errors(form.soft) }}</td>
+		</tr>
+		<tr id='SoftMethod' class='hidden'>
+			<th class='left'>Quelles sont les méthodes que j'ai essayées ?<br/><span class='hint'>Votre réponse n'est pas proposée ? Saisissez la directement</span></th>
+			<td>{{ form_widget(form.SoftMethod) }}</td>
+			<td class='form_error'>{{ form_errors(form.SoftMethod) }}</td>
+		</tr>
+		<tr><td colspan='3' style='text-align:right;'><input type='button' class='btn-style right' id='b_step4' value='Suivant >' /></td></tr>
+	</tbody>
+	<tbody id='step5' class='hidden'>
+		<tr>
+			<th class='left'>Quelles techniques de PMA j'ai utilisées ?<br/><span class='hint'>Votre réponse n'est pas proposée ? Saisissez la directement</span></th>
+			<td>{{ form_widget(form.TechPMA) }}</td>
+			<td class='form_error'>{{ form_errors(form.TechPMA) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>J'ai essayé ces techniques combien de fois ?</th>
+			<td>{{ form_widget(form.tries) }}</td>
+			<td class='form_error'>{{ form_errors(form.tries) }}</td>
+		</tr>
+	</tbody>
+	<tfoot class='hidden'>
+		<tr><th align='left'></th><td align='right'><br/>{{ form_rest(form) }}<input type='submit' class='btn-style right' id='next' value='Suivant >' /></td></tr>
+	</tfoot>
+</table>
+<script>
+$("#b_step1").click(function () {
+	$("#step1").hide(0);
+	$("#step2").show(0);
+});
+
+$("#b_step2").click(function () {
+	$("#step1").hide(0);
+	$("#step2").hide(0);
+	$("#step3").show(0);
+});
+
+$("#b_step3").click(function () {
+	$("#step1").hide(0);
+	$("#step2").hide(0);
+	$("#step3").hide(0);
+	$("#step4").show(0);
+});
+
+$("#b_step4").click(function () {
+	$("#step1").hide(0);
+	$("#step2").hide(0);
+	$("#step3").hide(0);
+	$("#step4").hide(0);
+	$("#step5").show(0);
+	$("#registration tfoot").show(0);
+});
+
+function format(item) { 
+	if (item.id <= 1)
+		return item.text+' semaine';
+	return item.text+' semaines'; 
+}
+
+$("#pma_since").select2({
+	minimumResultsForSearch: -1,
+});
+
+$("#pma_amenorrhee").select2({
+	formatResult: format,
+	formatSelection: format,
+}).on("change", function(e) {
+	var target = new Date();
+	target.setDate(target.getDate() + ((43 - e.val)*7));
+	var str = target.getFullYear() + '-' + (target.getMonth()+1) + '-' + target.getDate();
+	$("#pma_date").val(str);
+	target.setDate(target.getDate() + 4); 
+	str = target.getFullYear() + '-' + (target.getMonth()+1) + '-' + target.getDate();
+	$('.date-delivery-to').val(str);
+});
+
+$("#pma_StimulationLength").select2({
+	minimumResultsForSearch: -1,
+});
+
+$("#pma_tries").select2({
+	minimumResultsForSearch: -1,
+});
+
+$(".selectable").selectable({
+	selected: function (event, ui) {
+		$("input#pma_"+ui.selected.parentNode.id).val(ui.selected.id);
+		switch (ui.selected.parentNode.id) {
+			case 'pregnant':
+			    if (ui.selected.id == 'oui') {
+			    	$('#calendrier').slideDown(300);
+			    	$('#amenorrhee').slideDown(300);
+			    } else {
+			    	$('#calendrier').slideUp(150);
+			    	$('#amenorrhee').slideUp(150);
+			    }
+			    break;
+			case 'stimulation':
+			    if (ui.selected.id == 'oui') {
+			    	$('#StimulationLength').slideDown(300);
+			    	$('#stimulateurs').slideDown(300);
+			    	$('#pompe').slideDown(300);
+			    	$('#side_PumpSideEffect').slideDown(300);
+			    } else {
+			    	$('#StimulationLength').slideUp(150);
+			    	$('#stimulateurs').slideUp(150);
+			    	$('#pompe').slideUp(150);
+			    	$('#side_PumpSideEffect').slideUp(300);
+			    }
+			    break;
+			case 'soft':
+			    if (ui.selected.id == 'oui') {
+			    	$('#SoftMethod').slideDown(150);
+			    } else {
+			    	$('#SoftMethod').slideUp(150);
+			    }
+			    break;
+			case 'effets':
+			    if (ui.selected.id == 'oui') {
+			    	$('#side_PumpSideEffects').slideDown(150);
+			    } else {
+			    	$('#side_PumpSideEffects').slideUp(150);
+			    }
+			    break;
+		}
+	}
+});
+
+var PathologyGyneco = [];
+{% for key, value in choices.gyneco %}
+	value = "{{ value|e }}"; value = value.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'");
+	PathologyGyneco.push({ id: "{{ key }}", text: value });
+{% endfor %}
+$('#pma_PathologyGyneco').select2({
+	multiple: true,
+	minimumInputLength: 0,
+	data: PathologyGyneco,
+	allowClear: true,
+	width: 'element',
+	placeholder: "Choisissez vos problèmes gynécos",
+	createSearchChoice: createNewSelectItem, 
+});
+
+var RiskFactor = [];
+{% for key, value in choices.risk %}
+	value = "{{ value|e }}"; value = value.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'");
+	RiskFactor.push({ id: "{{ key }}", text: value });
+{% endfor %}
+$('#pma_RiskFactor').select2({
+	multiple: true,
+	minimumInputLength: 0,
+	data: RiskFactor,
+	allowClear: true,
+	width: 'element',
+	placeholder: "Choisissez vos facteurs de risque",
+	createSearchChoice: createNewSelectItem, 
+});
+
+var OvulationStimulator = [];
+{% for key, value in choices.stimulator %}
+	value = "{{ value|e }}"; value = value.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'");
+	OvulationStimulator.push({ id: "{{ key }}", text: value });
+{% endfor %}
+$('#pma_OvulationStimulator').select2({
+	multiple: true,
+	minimumInputLength: 0,
+	data: OvulationStimulator,
+	allowClear: true,
+	width: 'element',
+	placeholder: "Choisissez vos stimulateurs",
+	createSearchChoice: createNewSelectItem, 
+});
+
+var PumpSideEffect = [];
+{% for key, value in choices.effects %}
+	value = "{{ value|e }}"; value = value.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'");
+	PumpSideEffect.push({ id: "{{ key }}", text: value });
+{% endfor %}
+$('#pma_effets2').select2({
+	multiple: true,
+	minimumInputLength: 0,
+	data: PumpSideEffect,
+	allowClear: true,
+	width: 'element',
+	placeholder: "Choisissez vos effets secondaires",
+	createSearchChoice: createNewSelectItem, 
+});
+
+var SoftMethod = [];
+{% for key, value in choices.methods %}
+	value = "{{ value|e }}"; value = value.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'");
+	SoftMethod.push({ id: "{{ key }}", text: value });
+{% endfor %}
+$('#pma_SoftMethod').select2({
+	multiple: true,
+	minimumInputLength: 0,
+	data: SoftMethod,
+	allowClear: true,
+	width: 'element',
+	placeholder: "Choisissez vos méthodes douces",
+	createSearchChoice: createNewSelectItem, 
+});
+
+var TechPMA = [];
+{% for key, value in choices.technics %}
+	value = "{{ value|e }}"; value = value.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'");
+	TechPMA.push({ id: "{{ key }}", text: value });
+{% endfor %}
+$('#pma_TechPMA').select2({
+	multiple: true,
+	minimumInputLength: 0,
+	data: TechPMA,
+	allowClear: true,
+	width: 'element',
+	placeholder: "Choisissez vos techniques de PMA",
+	createSearchChoice: createNewSelectItem, 
+});
+
+if ($("#pma_stimulation").val())
+	$("#"+$("#pma_stimulation").val()).addClass("ui-selected");
+if ($("#pma_pump").val())
+	$("#"+$("#pma_pump").val()).addClass("ui-selected");
+if ($("#pma_soft").val())
+	$("#"+$("#pma_soft").val()).addClass("ui-selected");
+if ($("#pma_PumpSideEffect").val())
+	$("#"+$("#pma_PumpSideEffect").val()).addClass("ui-selected");
+
+$(":input").prop('required',null);
+</script>

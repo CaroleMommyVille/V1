@@ -1,0 +1,68 @@
+<div class='content' id='profil'>
+	{% if self %}
+	<a href="#{{ path('profil-editer') }}"><div class='edit right'></div></a>
+	{% endif %}
+	{% if profil.photo|length > 0 %}
+	<a class="fancybox left" href="{{ profil.photo }}" title="{{ profil.description }}"><div style='background-image:url({{ profil.photo }})' class='photo'></div></a>
+	{% else %}
+	<div style='background-image:url(/img/logos/mv-landeau-1000x1077.jpg)' class='photo'></div>
+	{% endif %}
+	<div class='identity'>
+		<h1 class='without-avatar profil'>{{ profil.firstname }} {{ profil.lastname|slice(0,1) }}.</h1>
+		<p>{{ profil.age }} ans<br/>
+		{{ profil.city }}</p>
+	</div>
+	<div class='desc'>{{ profil.description|raw }}</div>
+	{% if pregnancy|length > 0 %}
+	<div id='regle'>
+		<div id='trim1'></div>
+		<div id='trim2'></div>
+		<div id='trim3'></div>
+		<div id='marker'></div>
+		<div id='regle-14'>14</div>
+		<div id='regle-28'>28</div>
+	</div>
+	<script>
+		{% if (pregnancy.amenorrhee-1)/4.2 < 3 %}
+		$('#trim1').progressbar({
+			value: {{ pregnancy.amenorrhee/0.14 }},
+		});
+		$('#trim2').progressbar({
+			value: 0,
+		});
+		$('#trim3').progressbar({
+			value: 0,
+		});
+		{% else %}
+		$('#trim1').progressbar({
+			value: 100,
+		});
+		{% endif %}
+		{% if (pregnancy.amenorrhee)/4.2 < 6 %}
+		$('#trim2').progressbar({
+			value: {{ (pregnancy.amenorrhee-15)/0.14 }},
+		});
+		$('#trim3').progressbar({
+			value: 0,
+		});
+		{% else %}
+		$('#trim2').progressbar({
+			value: 100,
+		});
+		{% endif %}
+		{% if (pregnancy.amenorrhee)/4.2 >= 6 %}
+		$('#trim3').progressbar({
+			value: {{ (pregnancy.amenorrhee-29)/0.14 }},
+		});
+		{% else %}
+		$('#trim4').progressbar({
+			value: 100,
+		});
+		{% endif %}
+		{% set amenorrhee=(pregnancy.amenorrhee/42) %}
+		left = $('#regle').width() * {{ amenorrhee }} - 10;
+		left = '+'+left+'px';
+		$("#marker").animate({left: left });
+	</script>
+	{% endif %}
+</div>

@@ -1,0 +1,220 @@
+<div class='content' id='hobbies'>
+	<h1 class='dark'>Mes hobbies</h1>
+	<div id='new-hobby'></div>
+	{% if activities|length > 0 %}
+	{% for hobby in activities %}
+	{% if hobby|length > 0 %}<span>{{ hobby.descfr }}</span>{% endif %}
+	{% endfor %}{% endif %} {% if self %}<span class='button-add' data-form='hobby'></span>
+	<form id='hobby' class='hidden'>{{ form_widget(forms.hobbies.name) }}</form>{% endif %}
+</div>
+
+<div class='content' id='movies'>
+	<h1>Mes films</h1>
+	<div id='new-movie'></div>
+	{% if movies|length > 0 %}
+	{% for movie in movies %}
+	{% if movie|length > 0 %}<span>{{ movie }}</span>{% endif %}
+	{% endfor %}{% endif %} {% if self %}<span class='button-add' data-form='movie'></span>
+	<form id='movie' class='hidden'>{{ form_widget(forms.movies.name) }}</form>{% endif %}
+</div>
+
+<div class='content' id='series'>
+	<h1 class='dark'>Mes séries</h1>
+	<div id='new-serie'></div>
+	{% if series|length > 0 %}
+	{% for serie in series %}
+	{% if serie|length > 0 %}<span>{{ serie }}</span>{% endif %}
+	{% endfor %}{% endif %} {% if self %}<span class='button-add' data-form='serie'></span>
+	<form id='serie' class='hidden'>{{ form_widget(forms.series.name) }}</form>{% endif %}
+</div>
+
+<div class='content' id='musics'>
+	<h1>Mes musiques</h1>
+	<div id='new-music'></div>
+	{% if musics|length > 0 %}
+	{% for music in musics %}
+	{% if music|length > 0 %}<span>{{ music }}</span>{% endif %}
+	{% endfor %}{% endif %} {% if self %}<span class='button-add' data-form='music'></span>
+	<form id='music' class='hidden'>{{ form_widget(forms.musics.name) }}</form>{% endif %}
+</div>
+
+<div class='content' id='vips'>
+	<h1 class='dark'>Mes personnalités</h1>
+	<div id='new-vip'></div>
+	{% if vips|length > 0 %}
+	{% for vip in vips %}
+	{% if vip|length > 0 %}<span>{{ vip }}</span>{% endif %}
+	{% endfor %}{% endif %} {% if self %}<span class='button-add' data-form='vip'></span>
+	<form id='vip' class='hidden'>{{ form_widget(forms.vips.name) }}</form>{% endif %}
+</div>
+{% if self %}
+<script>
+$(".button-add").click(function() {
+	$('#'+$(this).attr('data-form')).toggle();
+});
+
+$('#hobby_name').select2({
+	minimumInputLength: 0,
+	width: '300px',
+	ajax: {
+        url: '/profil/passion',
+        dataType: 'json',
+        cache: true,
+        results: function (data) {
+            return {results: data.hobbies};
+        }
+    },
+	placeholder: "Dites nous vos hobbies préférés",
+}).on("change", function(e) {
+	$("#loading").show();
+	$.ajax({
+		url: '/profil/hobby',
+		type: 'GET',
+		data: $("#hobby").serialize(),
+	})
+	.done(function (data) {
+		$("#new-hobby").after(data);
+		$("#hobby").toggle();
+		$("#loading").hide();
+	})
+	.fail(function (xhr, status, error) {
+console.log(xhr.responseText);
+		validationDialog(xhr.responseText, '');
+		$("#hobby").toggle();
+		$("#loading").hide();
+	});
+});
+
+$('#movie_name').select2({
+	minimumInputLength: 0,
+	width: '300px',
+	ajax: {
+        url: '/profil/passion',
+        dataType: 'json',
+        cache: true,
+        results: function (data) {
+            return {results: data.movies};
+        }
+    },
+	placeholder: "Dites nous vos films préférés",
+	createSearchChoice : createNewSelectItem, 
+}).on("change", function(e) {
+	$("#loading").show();
+	$.ajax({
+		url: '/profil/movie',
+		type: 'GET',
+		data: $("#movie").serialize(),
+	})
+	.done(function (data) {
+		$("#new-movie").after(data);
+		$("#movie").toggle();
+		$("#loading").hide();
+	})
+	.fail(function (xhr, status, error) {
+console.log(xhr.responseText);
+		validationDialog(xhr.responseText, '');
+		$("#movie").toggle();
+		$("#loading").hide();
+	});
+});
+
+$('#serie_name').select2({
+	minimumInputLength: 0,
+	width: '300px',
+	ajax: {
+        url: '/profil/passion',
+        dataType: 'json',
+        cache: true,
+        results: function (data) {
+            return {results: data.series};
+        }
+    },
+	placeholder: "Dites nous vos séries préférés",
+	createSearchChoice : createNewSelectItem, 
+}).on("change", function(e) {
+	$("#loading").show();
+	$.ajax({
+		url: '/profil/serie',
+		type: 'GET',
+		data: $("#serie").serialize(),
+	})
+	.done(function (data) {
+		$("#new-serie").after(data);
+		$("#serie").toggle();
+		$("#loading").hide();
+	})
+	.fail(function (xhr, status, error) {
+console.log(xhr.responseText);
+		validationDialog(xhr.responseText, '');
+		$("#serie").toggle();
+		$("#loading").hide();
+	});
+});
+
+$('#music_name').select2({
+	minimumInputLength: 0,
+	width: '300px',
+	ajax: {
+        url: '/profil/passion',
+        dataType: 'json',
+        cache: true,
+        results: function (data) {
+            return {results: data.musics};
+        }
+    },
+	placeholder: "Dites nous vos musiques préférés",
+	createSearchChoice : createNewSelectItem, 
+}).on("change", function(e) {
+	$("#loading").show();
+	$.ajax({
+		url: '/profil/music',
+		type: 'GET',
+		data: $("#music").serialize(),
+	})
+	.done(function (data) {
+		$("#new-music").after(data);
+		$("#music").toggle();
+		$("#loading").hide();
+	})
+	.fail(function (xhr, status, error) {
+console.log(xhr.responseText);
+		validationDialog(xhr.responseText, '');
+		$("#music").toggle();
+		$("#loading").hide();
+	});
+});
+
+$('#vip_name').select2({
+	minimumInputLength: 0,
+	width: '300px',
+	ajax: {
+        url: '/profil/passion',
+        dataType: 'json',
+        cache: true,
+        results: function (data) {
+            return {results: data.vips};
+        }
+    },
+	placeholder: "Dites nous vos personnalites préférés",
+	createSearchChoice : createNewSelectItem, 
+}).on("change", function(e) {
+	$("#loading").show();
+	$.ajax({
+		url: '/profil/vip',
+		type: 'GET',
+		data: $("#vip").serialize(),
+	})
+	.done(function (data) {
+		$("#new-vip").after(data);
+		$("#vip").toggle();
+		$("#loading").hide();
+	})
+	.fail(function (xhr, status, error) {
+console.log(xhr.responseText);
+		validationDialog(xhr.responseText, '');
+		$("#vip").toggle();
+		$("#loading").hide();
+	});
+});
+</script>
+{% endif %}

@@ -1,0 +1,77 @@
+<ul>
+{# <li><div id='notification-mail'></div><div class='notification-nb'>3</div></li> #}
+<li><div id='notification-note'></div>{% if nbnote > 0 %}<div class='notification-nb' data-txt="">{{ nbnote }}</div>{% endif %}</li>
+{# <li><div id='notification-setup'></div></li> #}
+</ul>
+<script>
+$(document).tooltip({
+	items: "#notification-note",
+	content: function() {
+		var news = "";
+		{% if friends|length > 0 %} news += "<h2>Vos demandes d'amis</h2>"; {% endif %}
+		{% for friend in friends %}
+			// news += "<div data-id='{{ friend.id }}'><img src='{{ friend.source.photo }}' class='left miniature' /><p>{{ friend.source.firstname }} {{ friend.source.lastname|slice(0,1) }}.</p><p>{{ friend.source.age }} ans<br/><span class='btn-style accept' onclick='$.ajax({url: \'\/profil\/amis\/accepter\/{{ friend.id }}\',type: \'GET\'});' data-id='{{ friend.id }}'>Accepter</span> <span class='btn-style deny' onclick='$.ajax({url: \'\/profil\/amis\/refuser\/{{ friend.id }}\',type: \'GET\'});' data-id='{{ friend.id }}'>Refuser</span>";
+			news += "<div data-id='{{ friend.source.id }}' class='profil-item'><img src='{{ friend.source.photo }}' class='left miniature' /><p>{{ friend.source.firstname }} {{ friend.source.lastname|slice(0,1) }}.</p><p>{{ friend.source.age }} ans<br/><a class='btn-style accept' href='#/profil/amis/accepter/{{ friend.id }}' data-id='{{ friend.id }}'>Accepter</a> <a class='btn-style deny' href='#/profil/amis/refuser/{{ friend.id }}' data-id='{{ friend.id }}'>Refuser</span>";
+		{% endfor %}
+		{% if network|length >0 %} news += "<h2>Vous êtes dans leur réseau</h2>";{% endif %}
+		{% for notice in network %}
+			news += "<div data-id='{{ notice.source.id }}' class='profil-item'><img src='{{ notice.source.photo }}' class='left miniature' /><p>{{ notice.source.firstname }} {{ notice.source.lastname|slice(0,1) }}.</p><p>{{ notice.source.age }} ans<br/>";
+		{% endfor %}
+		if (news.length > 0) {
+			$(document).on('click', '.accept', function(event) {
+				event.preventDefault();
+				$("#loading").show();
+				$.ajax({
+					url: '/profil/amis/accepter/'+$(this).attr('data-id'),
+					type: 'GET',
+				})
+				.done(function (data) {
+					$("#loading").hide();
+				})
+				.fail(function (xhr, status, error) {
+			console.log(xhr.responseText);
+					$("#loading").hide();
+				});
+			});
+			$(document).on('click', '.deny', function(event) {
+				event.preventDefault();
+				$("#loading").show();
+				$.ajax({
+					url: '/profil/amis/refuser/'+$(this).attr('data-id'),
+					type: 'GET',
+				})
+				.done(function (data) {
+					$("#loading").hide();
+				})
+				.fail(function (xhr, status, error) {
+			console.log(xhr.responseText);
+					$("#loading").hide();
+				});
+			});
+			$(document).on('click', '.profil-item', function(event) {
+				event.preventDefault();
+				window.location.hash = '#/profil/voir/'+$(this).attr('data-id');
+			});
+		}
+		return news;
+	},
+	open: function(event, ui) {
+        if (typeof(event.originalEvent) === 'undefined') {
+            return false;
+        }
+        var $id = $(ui.tooltip).attr('id');
+        $('div.ui-tooltip').not('#' + $id).remove();
+    },
+    close: function(event, ui) {
+        ui.tooltip.hover(function() {
+            $(this).stop(true).fadeTo(400, 1); 
+        },
+        function() {
+            $(this).fadeOut('400', function() {
+                $(this).remove();
+            });
+        });
+    }
+});
+
+</script>

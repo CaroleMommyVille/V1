@@ -1,0 +1,193 @@
+<div class='block'>
+	<div class='content' id='pro'>
+		<table>
+			<tr>
+				<td rowspan='4' class='pro-photo'>
+					{% if pro.photo|length > 0 %}
+					<div style='background-image:url({{ pro.photo }})' class='upload' id='photo'>
+					{% else %}
+					<div style='background-image:url(/img/logos/mv-landeau-1000x1077.jpg)' class='upload' id='photo'>
+					{% endif %}
+					</div>
+				</td>
+				<th>
+					<h1 class='without-avatar'>{{ pro.name }}</h1>
+				</th>
+			</tr>
+			<tr>
+				<th>
+					<h2>{{ pro.address.literal }}</h2>
+				</th>
+			</tr>
+			<tr>
+				<th>
+					<h2>{{ pro.phone }}</h2>
+				</th>
+			</tr>
+			<tr>
+				<td>
+					<p>{{ pro.description|raw }}</p>
+				</td>
+			</tr>
+		</table>
+	</div>
+</div>
+<div class='block'>
+	<div id='page-likes' class='carousel'>
+		<div data-id='{{ page_like }}' class='page-like left'>{{ page_like_nb }}</div>
+		<div class="indicator"></div>
+		<div class="wrap">
+			<ul>
+				{% for user in like %}
+				{% if user.user.photo|length > 0 %}
+				<li><img src='{{ user.user.photo }}' class='small-avatar' /></li>
+				{% else %}
+				<li><img src='/img/logos-mv-landeau-1000x1077.jpg' class='small-avatar' /></li>
+				{% endif %}
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+</div>
+{% if manege|length > 0 %}
+<div class='block'>
+	<div id='page-manege' class='carousel'>
+		<div class="indicator"></div>
+		<div class="wrap">
+			<ul>
+				{% for image in manege %}
+				<li><a href='{{ image.url }}' class='fancybox' rel="carousel-photos"><img src='{{ image.url }}' class='vignette' /></a></li>
+				{% endfor %}
+			</ul>
+		</div>
+	</div>
+</div>
+{% endif %}
+<div class='block'>
+	<form id='message'>
+		{{ form_widget(form.content) }}
+		<div id='post-buttons'>
+			<span id='post-picture'></span> 
+			<span id='post-plus'></span> 
+			<span id='post-question'></span> 
+			<span id='post-publish'></span>
+		</div>
+		{{ form_rest(form) }}
+	</form>
+	<div id='new-msg'></div>
+	{% if messages is defined %}
+	{% for id, msg in messages %}
+	{% include 'MommyPageBundle:Post:post.html.twig' %}
+	{% endfor %}
+	{% endif %}
+</div>
+<script>
+function publishPost() {
+	$("#loading").show();
+	$.ajax({
+		url: '{{ action }}',
+		type: 'POST',
+		data: $("#message").serialize(),
+	})
+	.done(function (data) {
+		$("#new-msg").stop().prepend(data).fadeIn('slow');
+		$("#message_content").val('');
+		$("#loading").hide();
+	})
+	.fail(function (xhr, status, error) {
+console.log(xhr.responseText);
+		validationDialog(xhr.responseText, '');
+		$("#message_content").val('');
+		$("#loading").hide();
+	});
+}
+$("#message_content").keypress(function(e){
+	var code = (e.keyCode ? e.keyCode : e.which);
+	if (code == 13) {
+		publishPost();
+	}
+});
+$("#post-publish").click(function(event) {
+	event.preventDefault();
+	publishPost();
+});
+
+function publishComment(elt) {
+	$("#loading").show();
+	$.ajax({
+		url: '/page/comment/'+$(elt).attr('id'),
+		type: 'POST',
+		data: 'comment='+encodeURIComponent(elt.val()),
+	})
+	.done(function (data) {
+		$(elt).parent().after(data);
+		var count = $('#nb-'+$(elt).attr('id')).text();
+		count++;
+		$('#nb-'+$(elt).attr('id')).text(count);
+		$('#'+$(elt).attr('id')).empty();
+		$('#'+$(elt).attr('id')).parent().toggle();
+		$("#loading").hide();
+	})
+	.fail(function (xhr, status, error) {
+console.log(xhr.responseText);
+		validationDialog(xhr.responseText, '');
+		$('#'+$(elt).attr('id')).empty();
+		$("#loading").hide();
+	});
+}
+
+function like(elt) {
+	$("#loading").show();
+	var id = elt.attr('id');
+	$.ajax({
+		url: '/page/post/like/'+id,
+		type: 'GET',
+	})
+	.done(function (data) {
+		$('#nb-'+id).text(data);
+		$("#loading").hide();
+	})
+	.fail(function (xhr, status, error) {
+console.log(xhr.responseText);
+		$("#loading").hide();
+	});
+}
+
+$(".like").click(function(event) {
+	event.preventDefault();
+	like($(this));
+});
+
+$(".comment").click(function(event) {
+	event.preventDefault();
+	$('#'+$(this).attr('data-form')).toggle();
+	$('#'+$(this).attr('data-form')+' > textarea').focus();
+});
+
+$(".comment-input").each(function() {
+	$(this).keypress(function(e){
+		var code = (e.keyCode ? e.keyCode : e.which);
+		if (code == 13) {
+			publishComment($(this));
+		}
+	});
+});
+
+$(".page-like").click(function(event) {
+	event.preventDefault();
+	$("#loading").show();
+	var id = $(this).attr('data-id');
+	$.ajax({
+		url: '/page/like/'+id,
+		type: 'GET',
+	})
+	.done(function (data) {
+		$(this).text(data);
+		$("#loading").hide();
+	})
+	.fail(function (xhr, status, error) {
+console.log(xhr.responseText);
+		$("#loading").hide();
+	});
+});
+</script>

@@ -1,0 +1,136 @@
+<h2>Mon premier trimestre</h2>
+<table class='small-block'>
+	<tbody id='step1'>
+		<tr>
+			<th class='left'>J'ai déjà eu ma première consultation</th>
+			<td>
+				<ol id='consult1' class='selectable'>
+				{% for key, val in choices.consult1 %}
+					<li class='ui-widget-content' id='{{ key }}'>{{ val }}</li>
+				{% endfor %}
+				</ol>
+				{{ form_widget(form.consult1) }}
+			</td>
+			<td class='form_error'>{{ form_errors(form.consult1) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>Tout va bien ?</th>
+			<td>
+				<ol id='status' class='selectable'>
+				{% for key, val in choices.status %}
+					<li class='ui-widget-content' id='{{ key }}'>{{ val }}</li>
+				{% endfor %}
+				</ol>
+				{{ form_widget(form.status) }}
+			</td>
+			<td class='form_error'>{{ form_errors(form.status) }}</td>
+		</tr>
+		<tr><td colspan='3' style='text-align:right;'><br/><input type='button' class='btn-style right' id='b_step1' value='Suivant >' /></td></tr>
+	</tbody>
+	<tbody id='step2' class='hidden'>
+		<tr id='PathologyPregnancy' class='hidden'>
+			<th class='left'>Mes pathologies de grossesse<br/><span class='hint'>Votre réponse n'est pas proposée ? Saisissez la directement</span></th>
+			<td>{{ form_widget(form.PathologyPregnancy) }}</td>
+			<td class='form_error'>{{ form_errors(form.PathologyPregnancy) }}</td>
+		</tr>
+		<tr id='PathologyBaby' class='hidden'>
+			<th class='left'>Mes pathologies bébé<br/><span class='hint'>Votre réponse n'est pas proposée ? Saisissez la directement</span></th>
+			<td>{{ form_widget(form.PathologyBaby) }}</td>
+			<td class='form_error'>{{ form_errors(form.PathologyBaby) }}</td>
+		</tr>
+		<tr><td colspan='3' style='text-align:right;'><br/><input type='button' class='btn-style right' id='b_step2' value='Suivant >' /></td></tr>
+	</tbody>
+	<tbody id='step3' class='hidden'>
+		<tr>
+			<th class='left'>Mes symptômes grossesse<br/><span class='hint'>Votre réponse n'est pas proposée ? Saisissez la directement</span></th>
+			<td>{{ form_widget(form.PregnancySymptoms) }}</td>
+			<td class='form_error'>{{ form_errors(form.PregnancySymptoms) }}</td>
+		</tr>
+	</tbody>
+	<tfoot class='hidden'>
+		<tr><th align='left'></th><td align='right'><br/>{{ form_rest(form) }}<input type='submit' class='btn-style right' id='next' value='Suivant >' /></td></tr>
+	</tfoot>
+</table>
+<script>
+$("#b_step1").click(function () {
+	$("#step1").hide(0);
+	if (($("#trim1_status").val() == 'status-moi') || ($("#trim1_status").val() == 'status-bb')) {
+		$("#step2").show(0);
+	} else {
+		$("#step3").show(0);
+		$("#registration tfoot").show(0);
+	}
+});
+
+$("#b_step2").click(function () {
+	$("#step1").hide(0);
+	$("#step2").hide(0);
+	$("#step3").show(0);
+	$("#registration tfoot").show(0);
+});
+
+$(".selectable").selectable({
+	selected: function (event, ui) {
+		$("input#trim1_"+ui.selected.parentNode.id).val(ui.selected.id);
+		if (ui.selected.parentNode.id == 'status') {
+		    if (ui.selected.id == 'status-moi')
+		    	$('#PathologyPregnancy').slideDown(300);
+		    else
+		    	$('#PathologyPregnancy').slideUp(150);
+		    if (ui.selected.id == 'status-bb')
+		    	$('#PathologyBaby').slideDown(300);
+		    else
+		    	$('#PathologyBaby').slideUp(150);
+		}
+	}
+});
+
+var PathologyPregnancy = [];
+{% for key, PathologyPregnancy in choices.PathologyPregnancy %}
+text = "{{ PathologyPregnancy|e }}"; text = text.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'");
+PathologyPregnancy.push({ id: "{{ key }}", text: text });
+{% endfor %}
+$("#trim1_PathologyPregnancy").select2({
+	tags: PathologyPregnancy,
+	multiple: true,
+	minimumInputLength: 0,
+	width: 'element',
+	placeholder: "Sélectionnez vos pathologies grossesse",
+	createSearchChoice : createNewSelectItem, 
+});
+
+var PathologyBaby = [];
+{% for key, PathologyBaby in choices.PathologyBaby %}
+text = "{{ PathologyBaby|e }}"; text = text.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'");
+PathologyBaby.push({ id: "{{ key }}", text: text });
+{% endfor %}
+$("#trim1_PathologyBaby").select2({
+	tags: PathologyBaby,
+	multiple: true,
+	minimumInputLength: 0,
+	width: 'element',
+	placeholder: "Sélectionnez vos pathologies bébé",
+	createSearchChoice : createNewSelectItem, 
+});
+
+var PregnancySymptoms = [];
+{% for key, PregnancySymptoms in choices.PregnancySymptoms %}
+text = "{{ PregnancySymptoms|e }}"; text = text.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'");
+PregnancySymptoms.push({ id: "{{ key }}", text: text });
+{% endfor %}
+$("#trim1_PregnancySymptoms").select2({
+	tags: PregnancySymptoms,
+	multiple: true,
+	minimumInputLength: 0,
+	width: 'element',
+	placeholder: "Sélectionnez vos symptômes",
+	createSearchChoice : createNewSelectItem, 
+});
+
+if ($("#trim1_consult1").val())
+	$("#"+$("#trim1_consult1").val()).addClass("ui-selected");
+if ($("#trim1_status").val())
+	$("#"+$("#trim1_status").val()).addClass("ui-selected");
+
+$(":input").prop('required',null);
+</script>

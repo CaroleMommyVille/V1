@@ -1,0 +1,35 @@
+<h2>Quel type de maman êtes-vous ?</h2>
+<table class='small-block'>
+	<tbody>
+		<tr>
+			<th class='left'></th>
+			<td>
+				<ol id='choices' class='selectable'>
+				{% for key, val in choices.types %}
+					<li class='ui-widget-content' id='{{ key }}'>{{ val }}</li>
+				{% endfor %}
+				</o>
+				{{ form_widget(form.type) }}
+				<script type='text/javascript'>
+				$( "#choices" ).selectable({
+				    selected: function( event, ui ) {
+				        $("input#type_type").val(ui.selected.id);
+				    }
+				});
+				</script>
+			</td>
+			<td class='form_error'>{{ form_errors(form.type) }}</td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr><th align='left'></th><td align='right'><br/>{{ form_rest(form) }}<input type='submit' class='btn-style right' id='next' value='Suivant >' /></td></tr>
+	</tfoot>
+</table>
+<script>
+var title = 'Confidentialité de vos données';
+var msg = "<p>Toutes les questions auxquelles vous allez répondre sont <strong>complètement secrètes et privées</strong>. Personne ne verra vos réponses. Elles nous permettent uniquement d’optimiser votre expérience sur MommyVille en vous proposant les mamans et les MommyClub qui vous correspondent le plus.</p>"
+	+"<p>Vous pourrez modifier les critères à volonté dans votre espace MommyProfil une fois l’inscription terminée.</p>";
+$(function() {
+	validationDialog(title, msg);
+});
+</script>

@@ -1,0 +1,11 @@
+{% extends '::base.html.twig' %}
+
+{% block title %} :: Venez finir votre inscription plus tard{% endblock %}
+
+{% block center %}
+<p>Bonjour {{ firstname }},</p>
+
+<p>vous pouvez reprendre votre inscription quand vous le désirez avec le lien suivant :</p>
+
+<p><a href='https://www.mommyville.fr/#{{ path('security-register-remember') }}/{{ id }}'>https://www.mommyville.fr/#{{ path('security-register-remember') }}/{{ id }}</a></p>
+{% endblock %}

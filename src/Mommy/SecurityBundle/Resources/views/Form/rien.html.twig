@@ -1,0 +1,25 @@
+<h2>Pourquoi êtes-vous ici ?</h2>
+<table class='small-block'>
+	<tbody>
+		<tr>
+			<td>MommyVille est un site réservé exclusivement aux mamans, futures, jeunes, moins jeunes. Nous nous ferons un plaisir de vous accueillir au sein de la communauté MommyVille dès que ce sera votre cas. Si vous souhaitez nous expliquer  pourquoi vous voulez rejoindre MommyVille, merci de le faire dans l'encadré ci-dessous. Nous vous répondrons dans les délais les plus rapides.</td>
+			<td></td>
+		</tr>
+		<tr>
+			<td>{{ form_widget(form.message) }}</td>
+			<td class='form_error'>{{ form_errors(form.message) }}</td>
+		</tr>
+		<tr>
+			<td>{{ form_widget(form.keep) }}<label for='rien_keep'>Vous êtes futur papa ou jeune papa? Cliquez ici pour nous autoriser à reprendre contact avec vous quand nous lancerons la version papa. </label></td>
+			<td class='form_error'>{{ form_errors(form.keep) }}</td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr><th align='left'></th><td align='right'><br/>{{ form_rest(form) }}<input type='submit' class='btn-style right' id='next' value='Suivant >' /></td></tr>
+	</tfoot>
+</table>
+<script>
+$("#rien_message").maxlength({
+	max: 600,
+});
+</script>

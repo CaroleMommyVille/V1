@@ -1,0 +1,169 @@
+<div class='block'>
+	<div class='content'>
+		<h1 class='without-avatar'>Elles viennent de nous rejoindre <div class='info' title='Le réseau MommyVille est symbolisé par le landeau MommyVille. En cliquant sur le landeau gris, la membre fera partie automatiquement de votre réseau MommyVille et vous pourrez suivre son actualité publique. En cliquant sur le plus, vous enverrez au membre une demande pour rejoindre votre 1er cercle et devenir votre MommyFriend.'>?</div></h1>
+		{% for member in members %}
+		<div class='member-id' data-id='{{ member.id }}'></div>
+		{% endfor %}
+	</div>
+</div>
+
+<div class='block'>
+	<div class='content'>
+		<h1 class='without-avatar'>Que se passe-t-il dans mes MommyClubs ?</h1>
+	</div>
+	{% for id, msg in messages %}
+	{% include 'MommyClubBundle:Post:post.html.twig' %}
+	{% endfor %}
+</div>
+
+<script>
+$(document).on('click', ".add-friend", function(event) {
+	event.stopPropagation();
+	event.preventDefault();
+	$("#loading").show();
+	var id = $(this).attr('data-id');
+	$.ajax({
+		url: '/profil/amis/ajouter/'+id,
+		type: 'GET',
+	})
+	.done(function (data) {
+		$("#loading").hide();
+	})
+	.fail(function (xhr, status, error) {
+console.log(xhr.responseText);
+		$("#loading").hide();
+	});
+});
+$(document).on('click', ".add-network", function(event) {
+	event.stopPropagation();
+	event.preventDefault();
+	$("#loading").show();
+	var id = $(this).attr('data-id');
+	$.ajax({
+		url: '/profil/reseau/ajouter/'+id,
+		type: 'GET',
+	})
+	.done(function (data) {
+		$("#loading").hide();
+	})
+	.fail(function (xhr, status, error) {
+console.log(xhr.responseText);
+		$("#loading").hide();
+	});
+});
+$(document).on('click', ".add-club", function(event) {
+	event.stopPropagation();
+	event.preventDefault();
+	$("#loading").show();
+	var id = $(this).attr('data-id');
+	$.ajax({
+		url: '/club/rejoindre/'+id,
+		type: 'GET',
+	})
+	.done(function (data) {
+		$('.club-'+id).closest('.club-item').stop().fadeOut('slow');
+		$("#loading").hide();
+	})
+	.fail(function (xhr, status, error) {
+console.log(xhr.responseText);
+		$("#loading").hide();
+	});
+});
+$(".member-id").each(function() {
+	var elt = $(this);
+	var id = elt.attr('data-id');
+	$("#loading").show();
+	$.ajax({
+		url: '/profil/fiche/'+id,
+		type: 'GET',
+	})
+	.done(function (user) {
+		if (user.photo)
+			var div = "<img src='"+user.photo+"' class='left vignette' />";
+		else
+			var div = "<img src='/img/logos/mv-landeau-1000x1077.jpg' class='left vignette' />"
+		div += "<h1 class='dark'>"+user.name+"</h1>"
+			+ "<p>"+user.age+" ans"
+			+ "<br/>"+user.title;
+		if (user.city)
+			div += '<br/>'+user.city;
+		div += "<div class='add-contact'><span data-id='"+user.id+"' class='add-friend' title='Ajouter à vos amies'></span> <span data-id='"+user.id+"' class='add-network' title='Ajouter à votre réseau'></span></div>";
+		div += "<div class='compatibility'>"+user.compatible+" %</div>";
+		elt.append(div);
+		$("#loading").hide();
+		$(".add-friend").tooltip();
+		$(".add-network").tooltip();
+	})
+	.fail(function (xhr, status, error) {
+console.log(xhr.responseText);
+		$("#loading").hide();
+	});
+	elt.click(function(event) {
+		if ((event.target.className != 'add-network') && (event.target.className != 'add-friend'))
+			window.location.hash = '#/profil/voir/'+id;
+	})
+});
+
+$(".info").tooltip();
+
+function publishComment(elt) {
+	$("#loading").show();
+	$.ajax({
+		url: '/profil/comment/'+$(elt).attr('id'),
+		type: 'POST',
+		data: 'comment='+encodeURIComponent(elt.val()),
+	})
+	.done(function (data) {
+		$(elt).parent().after(data);
+		var count = $('#nb-'+$(elt).attr('id')).text();
+		count++;
+		$('#nb-'+$(elt).attr('id')).text(count);
+		$('#'+$(elt).attr('id')).empty();
+		$('#'+$(elt).attr('id')).parent().toggle();
+		$("#loading").hide();
+	})
+	.fail(function (xhr, status, error) {
+console.log(xhr.responseText);
+		validationDialog(xhr.responseText, '');
+		$('#'+$(elt).attr('id')).empty();
+		$("#loading").hide();
+	});
+}
+
+function like(elt) {
+	$("#loading").show();
+	var id = elt.attr('id');
+	$.ajax({
+		url: '/profil/like/'+id,
+		type: 'GET',
+	})
+	.done(function (data) {
+		$('#nb-'+id).text(data);
+		$("#loading").hide();
+	})
+	.fail(function (xhr, status, error) {
+console.log(xhr.responseText);
+		$("#loading").hide();
+	});
+}
+
+$(".like").click(function(event) {
+	event.preventDefault();
+	like($(this));
+});
+
+$(".comment").click(function(event) {
+	event.preventDefault();
+	$('#'+$(this).attr('data-form')).toggle();
+	$('#'+$(this).attr('data-form')+' > textarea').focus();
+});
+
+$(".comment-input").each(function() {
+	$(this).keypress(function(e){
+		var code = (e.keyCode ? e.keyCode : e.which);
+		if (code == 13) {
+			publishComment($(this));
+		}
+	});
+});
+</script>

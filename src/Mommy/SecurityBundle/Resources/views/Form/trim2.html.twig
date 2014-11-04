@@ -1,0 +1,182 @@
+<h2>Mon second trimestre</h2>
+<table class='small-block'>
+	<tbody id='step1'>
+		<tr>
+			<th class='left'>J'attends ...</th>
+			<td>
+				<ol id='result' class='selectable'>
+				{% for key, val in choices.result %}
+					<li class='ui-widget-content' id='{{ key }}'>{{ val }}</li>
+				{% endfor %}
+				</ol>
+				{{ form_widget(form.result) }}
+			</td>
+			<td class='form_error'>{{ form_errors(form.result) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>Je suis arrêtée</th>
+			<td>
+				<ol id='stopped' class='selectable'>
+				{% for key, val in choices.stopped %}
+					<li class='ui-widget-content' id='{{ key }}'>{{ val }}</li>
+				{% endfor %}
+				</ol>
+				{{ form_widget(form.stopped) }}
+			</td>
+			<td class='form_error'>{{ form_errors(form.stopped) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>J'ai prévenu mon employeur</th>
+			<td>
+				<ol id='JobInformed' class='selectable'>
+				{% for key, val in choices.job_informed %}
+					<li class='ui-widget-content' id='{{ key }}'>{{ val }}</li>
+				{% endfor %}
+				</ol>
+				{{ form_widget(form.JobInformed) }}
+				<p id='info' style='width:300px;' class='hidden'>Vous devez envoyer votre certificat de grossesse à la Sécurité Sociale avant la 15e semaine de grossesse. Rien ne vous oblige à prévenir votre employeur avant que vous ne partiez en congé maternité, mais ça peut être utile. Pensez à lui adresser une lettre avec AR et un certificat de grossesse en précisant les dates probables de votre arrêt communiquées par la Sécurité Sociale. Si vous rencontrez des difficultés ou des discriminations suite à l'annonce de votre grossesse, <a href='http://halde.defenseurdesdroits.fr/IMG/pdf/Depliant_grossesse.pdf' target='_new'>cliquez ici</a>.</p>
+			</td>
+			<td class='form_error'>{{ form_errors(form.JobInformed) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>J'ai déjà eu ma seconde consultation</th>
+			<td>
+				<ol id='consult2' class='selectable'>
+				{% for key, val in choices.consult2 %}
+					<li class='ui-widget-content' id='{{ key }}'>{{ val }}</li>
+				{% endfor %}
+				</ol>
+				{{ form_widget(form.consult2) }}
+			</td>
+			<td class='form_error'>{{ form_errors(form.consult2) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>Tout va bien ?</th>
+			<td>
+				<ol id='status' class='selectable'>
+				{% for key, val in choices.status %}
+					<li class='ui-widget-content' id='{{ key }}'>{{ val }}</li>
+				{% endfor %}
+				</ol>
+				{{ form_widget(form.status) }}
+			</td>
+			<td class='form_error'>{{ form_errors(form.status) }}</td>
+		</tr>
+		<tr><td colspan='3' style='text-align:right;'><br/><input type='button' class='btn-style right' id='b_step1' value='Suivant >' /></td></tr>
+	</tbody>
+	<tbody id='step2' class='hidden'>
+		<tr id='PathologyPregnancy' class='hidden'>
+			<th class='left'>Mes pathologies de grossesse<br/><span class='hint'>Votre réponse n'est pas proposée ? Saisissez la directement</span></th>
+			<td>{{ form_widget(form.PathologyPregnancy) }}</td>
+			<td class='form_error'>{{ form_errors(form.PathologyPregnancy) }}</td>
+		</tr>
+		<tr id='PathologyBaby' class='hidden'>
+			<th class='left'>Mes pathologies bébé<br/><span class='hint'>Votre réponse n'est pas proposée ? Saisissez la directement</span></th>
+			<td>{{ form_widget(form.PathologyBaby) }}</td>
+			<td class='form_error'>{{ form_errors(form.PathologyBaby) }}</td>
+		</tr>
+		<tr><td colspan='3' style='text-align:right;'><br/><input type='button' class='btn-style right' id='b_step2' value='Suivant >' /></td></tr>
+	</tbody>
+	<tbody id='step3' class='hidden'>
+		<tr>
+			<th class='left'>Mes symptômes grossesse<br/><span class='hint'>Votre réponse n'est pas proposée ? Saisissez la directement</span></th>
+			<td>{{ form_widget(form.PregnancySymptoms) }}</td>
+			<td class='form_error'>{{ form_errors(form.PregnancySymptoms) }}</td>
+		</tr>
+	</tbody>
+	<tfoot class='hidden'>
+		<tr><th align='left'></th><td align='right'><br/>{{ form_rest(form) }}<input type='submit' class='btn-style right' id='next' value='Suivant >' /></td></tr>
+	</tfoot>
+</table>
+<script>
+$("#b_step1").click(function () {
+	$("#step1").hide(0);
+	if (($("#trim2_status").val() == 'status-moi') || ($("#trim2_status").val() == 'status-bb')) {
+		$("#step2").show(0);
+	} else {
+		$("#step3").show(0);
+		$("#registration tfoot").show(0);
+	}
+});
+
+$("#b_step2").click(function () {
+	$("#step1").hide(0);
+	$("#step2").hide(0);
+	$("#step3").show(0);
+	$("#registration tfoot").show(0);
+});
+
+$(".selectable").selectable({
+	selected: function (event, ui) {
+		$("input#trim2_"+ui.selected.parentNode.id).val(ui.selected.id);
+		if (ui.selected.parentNode.id == 'status') {
+		    if (ui.selected.id == 'status-moi')
+		    	$('#PathologyPregnancy').slideDown(300);
+		    else
+		    	$('#PathologyPregnancy').slideUp(150);
+		    if (ui.selected.id == 'status-bb')
+		    	$('#PathologyBaby').slideDown(300);
+		    else
+		    	$('#PathologyBaby').slideUp(150);
+		} else if (ui.selected.parentNode.id == 'JobInformed') {
+		    if (ui.selected.id == 'non')
+		    	$('#info').slideDown(300);
+		    else
+		    	$('#info').slideUp(150);
+		}
+	}
+});
+
+var PathologyPregnancy = [];
+{% for key, PathologyPregnancy in choices.PathologyPregnancy %}
+text = "{{ PathologyPregnancy|e }}"; text = text.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'");
+PathologyPregnancy.push({ id: "{{ key }}", text: text });
+{% endfor %}
+$("#trim2_PathologyPregnancy").select2({
+	tags: PathologyPregnancy,
+	multiple: true,
+	minimumInputLength: 0,
+	width: 'element',
+	placeholder: "Sélectionnez vos pathologies grossesse",
+	createSearchChoice : createNewSelectItem, 
+});
+
+var PathologyBaby = [];
+{% for key, PathologyBaby in choices.PathologyBaby %}
+text = "{{ PathologyBaby|e }}"; text = text.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'");
+PathologyBaby.push({ id: "{{ key }}", text: text });
+{% endfor %}
+$("#trim2_PathologyBaby").select2({
+	tags: PathologyBaby,
+	multiple: true,
+	minimumInputLength: 0,
+	width: 'element',
+	placeholder: "Sélectionnez vos pathologies bébé",
+	createSearchChoice : createNewSelectItem, 
+});
+
+var PregnancySymptoms = [];
+{% for key, PregnancySymptoms in choices.PregnancySymptoms %}
+text = "{{ PregnancySymptoms|e }}"; text = text.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'");
+PregnancySymptoms.push({ id: "{{ key }}", text: text });
+{% endfor %}
+$("#trim2_PregnancySymptoms").select2({
+	tags: PregnancySymptoms,
+	multiple: true,
+	minimumInputLength: 0,
+	width: 'element',
+	placeholder: "Sélectionnez vos symptômes",
+	createSearchChoice : createNewSelectItem, 
+});
+
+if ($("#trim2_result").val())
+	$("#"+$("#trim2_result").val()).addClass("ui-selected");
+if ($("#trim2_stopped").val())
+	$("#"+$("#trim2_stopped").val()).addClass("ui-selected");
+if ($("#trim2_consult3").val())
+	$("#"+$("#trim2_consult3").val()).addClass("ui-selected");
+if ($("#trim2_status").val())
+	$("#"+$("#trim2_status").val()).addClass("ui-selected");
+
+$(":input").prop('required',null);
+</script>

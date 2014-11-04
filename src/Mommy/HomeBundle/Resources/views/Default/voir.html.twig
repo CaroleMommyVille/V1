@@ -1,0 +1,180 @@
+<div class='block'>
+	<form id='message' enctype="multipart/form-data">
+		{{ form_widget(form.content) }}
+		{{ form_widget(form.image) }}
+		{{ form_widget(form.preview) }}
+		<div id='post-buttons'>
+			<span id='post-picture' title='Ajouter une photo au message'></span>
+{#			<span id='post-plus' title='Tagger une personne'></span> #}
+{#			<span id='post-question' title='Poster une question sur MommyAsk'></span> #}
+			<span id='post-publish' title='Publier le message sur ce mur'></span>
+		</div>
+		{{ form_rest(form) }}
+	</form>
+	<div id='post-new-preview' class='hidden'>
+		<img id='post-new-preview-image' class='hidden left' src='' />
+		<iframe src='' id='post-new-preview-video' class='hidden left' />
+		<p><a href='' id='post-new-preview-url'></a></p>
+		<p id='post-new-preview-text'></p>
+	</div>
+	<div id='new-msg'></div>
+	{% if messages is defined %}
+	{% for id, msg in messages %}
+	{% include 'MommyHomeBundle:Post:post.html.twig' %}
+	{% endfor %}
+	{% endif %}
+</div>
+<script>
+function previewPhoto(input) {
+	if (input.files && input.files[0]) {
+		var reader = new FileReader();
+		reader.onload = function (e) {
+			$('#post-new-preview-image').css("background-image", "url("+e.target.result+")");
+			$('#post-new-preview-image').show();
+		}
+		reader.readAsDataURL(input.files[0]);
+	}
+}
+
+$("#message_image").change(function(){
+	previewPhoto(this);
+});
+
+$('#post-buttons > span').tooltip();
+$('#post-picture').click(function () {
+	$('#message_image').toggle();
+});
+function publishPost() {
+	$("#loading").show();
+	$.ajax({
+		url: '{{ action }}',
+		data: new FormData($("#message")[0]),
+		type: 'POST',
+		processData: false,
+		contentType: false
+	})
+	.done(function (data) {
+		$("#new-msg").stop().prepend(data).fadeIn('slow');
+		$("#message_content").val('');
+		$("#message_image").val('').hide();
+		$("#post-new-preview-video").hide();
+		$("#post-new-preview-image").hide();
+		$("#post-new-preview").hide();
+		$("#loading").hide();
+	})
+	.fail(function (xhr, status, error) {
+console.log(xhr.responseText);
+		validationDialog(xhr.responseText, '');
+		$("#loading").hide();
+	});
+}
+function quickImagePreview(i) {
+    $.ajax({
+    	url: '/ui/lien/'+link.id+'/image',
+    	type: 'POST',
+    	data: 'image='+encodeURIComponent($(i).attr("src")),
+    }).done(function (data) {
+    	$("#post-new-preview-image").attr('src', data.image).show();
+    }).fail(function (xhr, status, error){
+console.log(xhr.responseText);
+    });
+}
+function quickPreview(d) {
+    $.ajax({
+    	url: '/ui/lien/ajouter',
+    	type: 'POST',
+    	data: d,
+    }).done(function (data) {
+		link = data;
+		$("#message_preview").val(link.id);
+    	$("#post-new-preview-url").attr('href', link.url).text(link.title);
+    	$("#post-new-preview-text").text(decodeURIComponent(link.description));
+    	if (link.video.length)
+    		$("#post-new-preview-video").attr('src', link.video).show();
+    	$("#post-new-preview").stop().show();
+    }).fail(function (xhr, status, error){
+console.log(xhr.responseText);
+		link = false;
+    });
+}
+var link = null;
+$("#message_content").keypress(function(e){
+	var code = (e.keyCode ? e.keyCode : e.which);
+	if (code == 13) {
+		publishPost();
+	}
+}).liveUrl({
+	findLogo: true,
+	addImage: function(image) {
+		quickImagePreview(image);
+	},
+	success: function(data) {
+		quickPreview(data);
+	},
+});
+$("#post-publish").click(function(event) {
+	event.preventDefault();
+	publishPost();
+});
+
+function publishComment(elt) {
+	$("#loading").show();
+	$.ajax({
+		url: '/profil/comment/'+$(elt).attr('id'),
+		type: 'POST',
+		data: 'comment='+encodeURIComponent(elt.val()),
+	})
+	.done(function (data) {
+		$(elt).parent().after(data);
+		var count = $('#nb-'+$(elt).attr('id')).text();
+		count++;
+		$('#nb-'+$(elt).attr('id')).text(count);
+		$('#'+$(elt).attr('id')).empty();
+		$('#'+$(elt).attr('id')).parent().toggle();
+		$("#loading").hide();
+	})
+	.fail(function (xhr, status, error) {
+console.log(xhr.responseText);
+		validationDialog(xhr.responseText, '');
+		$('#'+$(elt).attr('id')).empty();
+		$("#loading").hide();
+	});
+}
+
+function like(elt) {
+	$("#loading").show();
+	var id = elt.attr('id');
+	$.ajax({
+		url: '/profil/like/'+id,
+		type: 'GET',
+	})
+	.done(function (data) {
+		$('#nb-'+id).text(data);
+		$("#loading").hide();
+	})
+	.fail(function (xhr, status, error) {
+console.log(xhr.responseText);
+		$("#loading").hide();
+	});
+}
+
+$(".like").click(function(event) {
+	event.preventDefault();
+	like($(this));
+});
+
+$(".comment").click(function(event) {
+	event.preventDefault();
+	$('#'+$(this).attr('data-form')).toggle();
+	$('#'+$(this).attr('data-form')+' > textarea').focus();
+});
+
+$(".comment-input").each(function() {
+	$(this).keypress(function(e){
+		var code = (e.keyCode ? e.keyCode : e.which);
+		if (code == 13) {
+			publishComment($(this));
+		}
+	});
+});
+</script>

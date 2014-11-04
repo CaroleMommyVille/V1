@@ -1,0 +1,75 @@
+<div class='block'>
+	<div class='content' id='club'>
+		<form name="club" method="post" action="" enctype="multipart/form-data">
+		<table>
+			<tr>
+				<td rowspan='5' width='300'>
+					<div style='background-image:url(/img/logos/mv-landeau-1000x1077.jpg)' class='upload' id='photo'></div>
+				</td>
+				<th>
+					{{ form_widget(form.name) }}
+				</th>
+			</tr>
+			<tr>
+				<th>
+					{{ form_widget(form.address) }}
+				</th>
+			</tr>
+			<tr>
+				<td>
+					{{ form_widget(form.description) }}
+				</td>
+			</tr>
+			<tr>
+				<td>
+					{{ form_widget(form.photo) }}
+				</td>
+			</tr>
+			<tr>
+				<td>
+					{{ form_widget(form.keywords) }}
+				</td>
+			</tr>
+		</table>
+		{{ form_rest(form) }}
+		<input class='btn-style right' type='submit' value='Sauvegarder' />
+		</form>
+	</div>
+</div>
+<script>
+function previewPhoto(input) {
+	if (input.files && input.files[0]) {
+		var reader = new FileReader();
+		reader.onload = function (e) {
+			$('#photo').css("background-image", "url("+e.target.result+")");
+		}
+		reader.readAsDataURL(input.files[0]);
+	}
+}
+
+$("#club_photo").change(function(){
+	previewPhoto(this);
+});
+
+initGeoComplete('#club_address',null);
+$('#club > form').submit(function(event) {
+	event.preventDefault();
+	$("#loading").show();
+	$.ajax({
+		url: '/club/creer',
+		data: new FormData( this ),
+		type: 'POST',
+		processData: false,
+		contentType: false
+	})
+	.done(function (data) {
+		$("#center").empty().append(data).fadeIn('slow');
+		$("#loading").hide();
+	})
+	.fail(function (xhr, status, error) {
+console.log(xhr.responseText);
+		validationDialog(xhr.responseText, '');
+		$("#loading").hide();
+	});
+});
+</script>

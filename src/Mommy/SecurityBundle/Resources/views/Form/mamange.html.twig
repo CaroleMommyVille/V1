@@ -1,0 +1,193 @@
+<h2>Je suis une mamange</h2>
+<table class='small-block'>
+	<tbody id='step1'>
+		<tr>
+			<th class='left'>Je suis mamange depuis quand ?</th>
+			<td>{{ form_widget(form.since) }}</td>
+			<td class='form_error'>{{ form_errors(form.since) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>Quel âge avait mon ange quand il est parti ?</th>
+			<td>{{ form_widget(form.age) }}</td>
+			<td class='form_error'>{{ form_errors(form.age) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>Dans quelles circonstances suis-je devenue mamange ?</th>
+			<td>{{ form_widget(form.case) }}</td>
+			<td class='form_error'>{{ form_errors(form.case) }}</td>
+		</tr>
+		<tr><td colspan='3' style='text-align:right;'><br/><input type='button' class='btn-style right' id='b_step1' value='Suivant >' /></td></tr>
+	</tbody>
+	<tbody id='step2' class='hidden'>
+		<tr id='ivg' class='hidden'>
+			<th class='left'>Pour quelle raison j'ai procédé à une IVG ?<br/><span class='hint'>Votre réponse n'est pas proposée ? Saisissez la directement</span></th>
+			<td>{{ form_widget(form.ivg) }}</td>
+			<td class='form_error'>{{ form_errors(form.ivg) }}</td>
+		</tr>
+		<tr id='img' class='hidden'>
+			<th class='left'>Pour quelle raison j'ai procédé à une IMG ?<br/><span class='hint'>Votre réponse n'est pas proposée ? Saisissez la directement</span></th>
+			<td>{{ form_widget(form.img) }}</td>
+			<td class='form_error'>{{ form_errors(form.img) }}</td>
+		</tr>
+		<tr id='disease' class='hidden'>
+			<th class='left'>Quelle maladie a emporté mon ange ?<br/><span class='hint'>Votre réponse n'est pas proposée ? Saisissez la directement</span></th>
+			<td>{{ form_widget(form.disease) }}</td>
+			<td class='form_error'>{{ form_errors(form.disease) }}</td>
+		</tr>
+		<tr><td colspan='3' style='text-align:right;'><br/><input type='button' class='btn-style right' id='b_step2' value='Suivant >' /></td></tr>
+	</tbody>
+	<tbody id='step3' class='hidden'>
+		<tr>
+			<th class='left'>Comment je l'ai vécu ?</th>
+			<td>{{ form_widget(form.life) }}</td>
+			<td class='form_error'>{{ form_errors(form.life) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>Est-ce que j'ai été aidée / suivie ?</th>
+			<td>{{ form_widget(form.FollowUp) }}</td>
+			<td class='form_error'>{{ form_errors(form.FollowUp) }}</td>
+		</tr>
+		<tr><td colspan='3' style='text-align:right;'><br/><input type='button' class='btn-style right' id='b_step3' value='Suivant >' /></td></tr>
+	</tbody>
+	<tbody id='step4' class='hidden'>
+		<tr>
+			<th class='left'>Comment notre couple a vécu cette épreuve ?</th>
+			<td>{{ form_widget(form.couple) }}</td>
+			<td class='form_error'>{{ form_errors(form.couple) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>Est-ce que vous prévoyez de refaire un bébé bientôt ?</th>
+			<td>{{ form_widget(form.baby) }}</td>
+			<td class='form_error'>{{ form_errors(form.baby) }}</td>
+		</tr>
+	</tbody>
+	<tfoot class='hidden'>
+		<tr><th align='left'></th><td align='right'><br/>{{ form_rest(form) }}<input type='submit' class='btn-style right' id='next' value='Suivant >' /></td></tr>
+	</tfoot>
+</table>
+<script>
+$("#b_step1").click(function () {
+	$("#step1").hide(0);
+	if (($("#mamange_case") == 'mamange-case-1') || ($("#mamange_case") == 'mamange-case-2') || ($("#mamange_case") == 'mamange-case-4'))
+		$("#step2").show(0);
+	else 
+		$("#step3").show(0);
+});
+
+$("#b_step2").click(function () {
+	$("#step1").hide(0);
+	$("#step2").hide(0);
+	$("#step3").show(0);
+});
+
+$("#b_step3").click(function () {
+	$("#step1").hide(0);
+	$("#step2").hide(0);
+	$("#step3").hide(0);
+	$("#step4").show(0);
+	$("#registration tfoot").show(0);
+});
+
+$("#mamange_age").select2({
+	minimumResultsForSearch: -1,
+});
+
+$("#mamange_case").select2({
+	minimumResultsForSearch: -1,
+}).on("change", function(e) {
+	if (typeof e.added != "undefined") {
+		switch (e.added.id) {
+			case 'mamange-case-1':
+				$("#ivg").show();
+				break;
+			case 'mamange-case-2':
+				$("#img").show();
+				break;
+			case 'mamange-case-4':
+				$("#disease").show();
+				break;
+		}
+	}
+	if (typeof e.removed != "undefined") {
+		switch (e.removed.id) {
+			case 'mamange-case-1':
+				$("#ivg").hide();
+				break;
+			case 'mamange-case-2':
+				$("#img").hide();
+				break;
+			case 'mamange-case-4':
+				$("#disease").hide();
+				break;
+			case 'mamange-case-3':
+				$("#hr").show(0);
+				break;
+		}
+	}
+});
+
+var ivg = [];
+{% for key, value in choices.ivg %}
+value = "{{ value|e }}"; value = value.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'");
+ivg.push({ id: "{{ key }}", text: value });
+{% endfor %}
+$("#mamange_ivg").select2({
+	multiple: false,
+	data: ivg,
+	minimumInputLength: 0,
+	width: 'element',
+	createSearchChoice : createNewSelectItem, 
+});
+
+var img = [];
+{% for key, value in choices.img %}
+value = "{{ value|e }}"; value = value.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'");
+img.push({ id: "{{ key }}", text: value });
+{% endfor %}
+$("#mamange_img").select2({
+	multiple: false,
+	data: img,
+	minimumInputLength: 0,
+	width: 'element',
+	createSearchChoice : createNewSelectItem, 
+});
+
+var maladie = [];
+{% for key, value in choices.disease %}
+value = "{{ value|e }}"; value = value.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'");
+maladie.push({ id: "{{ key }}", text: value });
+{% endfor %}
+$("#mamange_disease").select2({
+	multiple: false,
+	data: maladie,
+	minimumInputLength: 0,
+	width: 'element',
+	createSearchChoice : createNewSelectItem, 
+});
+
+$("#mamange_life").select2({
+	minimumResultsForSearch: -1,
+});
+
+var FollowUp = [];
+{% for key, value in choices.followup %}
+value = "{{ value|e }}"; value = value.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'");
+FollowUp.push({ id: "{{ key }}", text: value });
+{% endfor %}
+$("#mamange_FollowUp").select2({
+	multiple: true,
+	data: FollowUp,
+	minimumInputLength: 0,
+	width: 'element',
+});
+
+$("#mamange_couple").select2({
+	minimumResultsForSearch: -1,
+});
+
+$("#mamange_baby").select2({
+	minimumResultsForSearch: -1,
+});
+
+$(":input").prop('required',null);
+</script>

@@ -1,0 +1,104 @@
+<h2>Quel est l'avancement de ma grossesse ?</h2>
+<table class='small-block'>
+	<tbody id='enceinte_step1'>
+		<tr>
+			<th colspan='3' class='thead'>Mon calendrier</th>
+		</tr>
+		<tr>
+			<th class='left'>L'accouchement est prévu entre le </th>
+			<td>{{ form_widget(form.date) }} et le <input type='text' class='date-delivery-to' disabled='disabled' /></td>
+			<td class='form_error'>{{ form_errors(form.date) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>Mon nombre de semaines d'aménorrhée<br/><span class='hint'>Nombre de semaines depuis les dernières règles</span></th>
+			<td>
+				{{ form_widget(form.amenorrhee) }}
+			</td>
+			<td class='form_error'>{{ form_errors(form.amenorrhee) }}</td>
+		</tr>
+		<tr>
+			<th colspan='3' class='thead'>Ma grossesse</th>
+		</tr>
+		<tr>
+			<th class='left'>Je suis tombée enceinte</th>
+			<td>
+				<ol id='speed' class='selectable'>
+				{% for key, val in choices.vitesses %}
+					<li class='ui-widget-content' id='{{ key }}'>{{ val }}</li>
+				{% endfor %}
+				</ol>
+				{{ form_widget(form.speed) }}
+			</td>
+			<td class='form_error'>{{ form_errors(form.speed) }}</td>
+		</tr>
+		<tr id='reaction_row' class='hidden'>
+			<th class='left'>Ma réaction a été</th>
+			<td>
+				<ol id='reaction' class='selectable'>
+				{% for key, val in choices.reactions %}
+					<li class='ui-widget-content' id='{{ key }}'>{{ val }}</li>
+				{% endfor %}
+				</ol>
+				{{ form_widget(form.reaction) }}
+			</td>
+			<td class='form_error'>{{ form_errors(form.reaction) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>C'est mon premier</th>
+			<td>
+				<ol id='prems' class='selectable'>
+				{% for key, val in choices.prems %}
+					<li class='ui-widget-content' id='{{ key }}'>{{ val }}</li>
+				{% endfor %}
+				</ol>
+				{{ form_widget(form.prems) }}
+			</td>
+			<td class='form_error'>{{ form_errors(form.prems) }}</td>
+		</tr>
+	</tbody>
+	<tfoot id='enceinte_foot'>
+		<tr><th align='left'></th><td align='right'><br/>{{ form_rest(form) }}<input type='submit' class='btn-style right' id='next' value='Suivant >' /></td></tr>
+	</tfoot>
+</table>
+<script>
+function format_weeks(item) { 
+	if (item.id <= 1)
+		return item.text+' semaine';
+	return item.text+' semaines'; 
+}
+
+$("#enceinte_amenorrhee").select2({
+	formatResult: format_weeks,
+	formatSelection: format_weeks,
+}).on("change", function(e) {
+	var target = new Date();
+	target.setDate(target.getDate() + ((43 - e.val)*7));
+	var str = target.getFullYear() + '-' + (target.getMonth()+1) + '-' + target.getDate();
+	$("#enceinte_date").val(str);
+	target.setDate(target.getDate() + 4); 
+	str = target.getFullYear() + '-' + (target.getMonth()+1) + '-' + target.getDate();
+	$('.date-delivery-to').val(str);
+});
+
+$(".selectable").selectable({
+	selected: function (event, ui) {
+		$("input#enceinte_"+ui.selected.parentNode.id).val(ui.selected.id);
+		if (ui.selected.parentNode.id == 'speed') {
+		    if (ui.selected.id == 'speed-nonprevu') {
+		    	$('#reaction_row').slideDown(300);
+		    	$('#enceinte_reaction').attr('required', 'required');
+		    } else {
+		    	$('#reaction_row').slideUp(300);
+		    	$('#enceinte_reaction').removeAttr('required', 'required');
+		    }
+		}
+	}
+});
+
+if ($("#enceinte_speed").val())
+	$("#"+$("#enceinte_speed").val()).addClass("ui-selected");
+if ($("#enceinte_prems").val())
+	$("#"+$("#enceinte_prems").val()).addClass("ui-selected");
+if ($("#enceinte_reaction").val())
+	$("#"+$("#enceinte_reaction").val()).addClass("ui-selected");
+</script>

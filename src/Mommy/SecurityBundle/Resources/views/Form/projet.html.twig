@@ -1,0 +1,136 @@
+<h2>Mon projet naissance</h2>
+<table class='small-block'>
+	<tbody id='step1'>
+		<tr>
+			<th class='left'>J'ai trouvé ma maternité</th>
+			<td>
+				<ol id='maternityfound' class='selectable'>
+				{% for key, val in choices.maternityfound %}
+					<li class='ui-widget-content' id='{{ key }}'>{{ val }}</li>
+				{% endfor %}
+				</ol>
+				{{ form_widget(form.maternityfound) }}
+			</td>
+			<td class='form_error'>{{ form_errors(form.maternityfound) }}</td>
+		</tr>
+		<tr id='maternity' class='hidden'>
+			<th class='left'>Ma maternité<br/><span class='hint'>Votre réponse n'est pas proposée ? Saisissez la directement</span></th>
+			<td>{{ form_widget(form.maternity) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>Mon type de préparation<br/><span class='hint'>Votre réponse n'est pas proposée ? Saisissez la directement</span></th>
+			<td>{{ form_widget(form.preparation) }}</td>
+			<td class='form_error'>{{ form_errors(form.preparation) }}</td>
+		</tr>
+		<tr><td colspan='3' style='text-align:right;'><br/><input type='button' class='btn-style right' id='b_step1' value='Suivant >' /></td></tr>
+	</tbody>
+	<tbody id='step2' class='hidden'>
+		<tr>
+			<th class='left'>Mon souhait d'accouchement</th>
+			<td>{{ form_widget(form.method) }}</td>
+			<td class='form_error'>{{ form_errors(form.method) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>Allaitement</th>
+			<td>
+				<ol id='breastfed' class='selectable'>
+				{% for key, val in choices.breastfed %}
+					<li class='ui-widget-content' id='{{ key }}'>{{ val|e }}</li>
+				{% endfor %}
+				</ol>
+				{{ form_widget(form.breastfed) }}
+			</td>
+			<td class='form_error'>{{ form_errors(form.breastfed) }}</td>
+		</tr>
+		<tr><td colspan='3' style='text-align:right;'><br/><input type='button' class='btn-style right' id='b_step2' value='Suivant >' /></td></tr>
+	</tbody>
+	<tbody id='step3' class='hidden'>
+		<tr>
+			<th class='left'>Mon alimentation<br/><span class='hint'>Votre réponse n'est pas proposée ? Saisissez la directement</span></th>
+			<td>{{ form_widget(form.food) }}</td>
+			<td class='form_error'>{{ form_errors(form.food) }}</td>
+		</tr>
+	</tbody>
+	<tfoot class='hidden'>
+		<tr><th align='left'></th><td align='right'><br/>{{ form_rest(form) }}<input type='submit' class='btn-style right' id='next' value='Suivant >' /></td></tr>
+	</tfoot>
+</table>
+<script>
+$("#b_step1").click(function () {
+	$("#step1").hide(0);
+	$("#step2").show(0);
+});
+
+$("#b_step2").click(function () {
+	$("#step1").hide(0);
+	$("#step2").hide(0);
+	$("#step3").show(0);
+	$("#registration tfoot").show(0);
+});
+
+$(".selectable").selectable({
+	selected: function (event, ui) {
+		$("input#projet_"+ui.selected.parentNode.id).val(ui.selected.id);
+		if (ui.selected.parentNode.id == 'maternityfound') {
+			if (ui.selected.id == 'mf-found')
+				$("#maternity").show(0);
+			else
+				$("#maternity").hide(0);
+		}
+	}
+});
+
+var preparation = [];
+{% for key, prep in choices.preparation %}
+text = "{{ prep|e }}"; text = text.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'");
+preparation.push({ id: "{{ key }}", text: text });
+{% endfor %}
+$("#projet_preparation").select2({
+	multiple: true,
+	data: preparation,
+	minimumInputLength: 0,
+	width: 'element',
+	placeholder: "Sélectionnez votre préparation",
+	createSearchChoice : createNewSelectItem, 
+});
+
+var method = [];
+{% for key, method in choices.method %}
+text = "{{ method|e }}"; text = text.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'");
+method.push({ id: "{{ key }}", text: text });
+{% endfor %}
+$("#projet_method").select2({
+	data: method,
+	multiple: false,
+	minimumInputLength: 0,
+	width: 'element',
+	placeholder: "Sélectionnez votre méthode",
+	createSearchChoice : createNewSelectItem, 
+});
+
+var food = [];
+{% for key, food in choices.food %}
+text = "{{ food|e }}"; text = text.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'");
+food.push({ id: "{{ key }}", text: text });
+{% endfor %}
+$("#projet_food").select2({
+	data: food,
+	multiple: false,
+	minimumInputLength: 0,
+	width: 'element',
+	placeholder: "Sélectionnez votre alimentation",
+	createSearchChoice : createNewSelectItem, 
+});
+
+$("#projet_maternity").select2({
+	minimumInputLength: 0,
+	escapeMarkup: function(m) { return m; }
+});
+
+if ($("#project_maternity").val())
+	$("#"+$("#project_maternity").val()).addClass("ui-selected");
+if ($("#project_breastfed").val())
+	$("#"+$("#project_breastfed").val()).addClass("ui-selected");
+
+$(":input").prop('required',null);
+</script>

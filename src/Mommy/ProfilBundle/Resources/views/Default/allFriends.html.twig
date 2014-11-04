@@ -1,0 +1,26 @@
+<div class='block'>
+	<div class='content' id='club'>
+		<h1 class='without-avatar'>Voici tous vos MommyFriends</h1>
+		{% if friends|length > 0 %}
+		{% for friend in friends %}
+		<div class='id' data-id='{{ friend.id }}'>
+			{% if friend.photo|length > 0 %}
+			<img src='{{ friend.photo }}' class='left miniature' />
+			{% else %}
+			<img src='/img/logos/mv-landeau-1000x1077.jpg' class='left miniature' />
+			{% endif %}
+			<p>{{ friend.firstname }} {{ friend.name|slice(0,1) }}.</p>
+			<p>{{ friend.age }} ans{% if friend.city|length > 0 %}{{ friend.city }}{% endif %}</p>
+		</div>
+		{% endfor %}
+		{% else %}
+		<p><img src='/img/friends.png' /></p>
+		{% endif %}
+		<p>Tous mes MommyFriends</p>
+	</div>
+</div>
+<script>
+$(".view").click(function () {
+	window.location.hash = '#/profil/voir/'+(this).attr('data-id');
+});
+</script>

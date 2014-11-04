@@ -1,0 +1,456 @@
+<h2>Quelle est ma vie de femme ?</h2>
+<table class='small-block'>
+	<tbody id='step1'>
+		<tr>
+			<th class='left'>Mon statut marital</th>
+			<td>{{ form_widget(form.marriage) }}</td>
+			<td class='form_error'>{{ form_errors(form.marriage) }}</td>
+		</tr>
+		<tr id='since'>
+			<th class='left'>Depuis quand</th>
+			<td>{{ form_widget(form.since) }}</td>
+			<td class='form_error'>{{ form_errors(form.since) }}</td>
+		</tr>
+		<tr><td colspan='3' style='text-align:right;'><input type='button' class='btn-style right' id='b_step1' value='Suivant >' /></td></tr>
+	</tbody>
+	<tbody id='step2' class='hidden'>
+		<tr>
+			<th class='left'>Mon arrondissement, ma ville</th>
+			<td>{{ form_widget(form.address) }}</td>
+			<td class='form_error'>{{ form_errors(form.address) }}</td>
+		</tr>
+		<tr>
+			<th colspan='3'>
+				<span class='hint'>Nous ne dévoilerons votre adresse à aucun membre ni à aucun organisme, cette précision nous permet juste de vous offrir un meilleur service de proximité</span>
+			</th>
+		<tr class='map_row'>
+			<td colspan='2'><div id='femme_address_map'></div></td>
+		</tr>
+		<tr>
+			<th class='left'>Ma station/Mon arrêt<br/><img src='/img/icones/transports.png' alt='Transports'/></th>
+			<td>{{ form_widget(form.Stations) }}</td>
+			<td class='form_error'>{{ form_errors(form.Stations) }}</td>
+		</tr>
+		<tr><td colspan='3' style='text-align:right;'><input type='button' class='btn-style right' id='b_step2' value='Suivant >' /></td></tr>
+	</tbody>
+	<tbody id='step3' class='hidden'>
+		<tr>
+			<th class='left'>Mon niveau d'étude</th>
+			<td>{{ form_widget(form.diploma) }}</td>
+			<td class='form_error'>{{ form_errors(form.diploma) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>Mon emploi</th>
+			<td>
+				<ol id='job' class='selectable'>
+					<li class='ui-widget-content' id='oui'>je travaille</li>
+					<li class='ui-widget-content' id='non'>je ne travaille pas</li>
+				</ol>
+				{{ form_widget(form.job) }}
+			</td>
+			<td class='form_error'>{{ form_errors(form.job) }}</td>
+		</tr>
+		<tr id='jobtitle' class='hidden'>
+			<th class='left'>Ma profession</th>
+			<td>{{ form_widget(form.jobtitle) }}</td>
+			<td class='form_error'>{{ form_errors(form.jobtitle) }}</td>
+		</tr>
+		<tr id='jobaddress' class='hidden'>
+			<th class='left'>Ma ville, mon arrondissement de travail</th>
+			<td>{{ form_widget(form.jobaddress) }}</td>
+			<td class='form_error'>{{ form_errors(form.jobaddress) }}</td>
+		</tr>
+		<tr id='jobstation' class='hidden'>
+			<th class='left'>Ma station/Mon arrêt de travail<br/><img src='/img/icones/transports.png' alt='Transports'/></th>
+			<td>{{ form_widget(form.JobStations) }}</td>
+			<td class='form_error'>{{ form_errors(form.JobStations) }}</td>
+		</tr>
+		<tr id='nowork' class='hidden'>
+			<th class='left'>Je ne travaille pas car</th>
+			<td>{{ form_widget(form.nowork) }}</td>
+			<td class='form_error'>{{ form_errors(form.nowork) }}</td>
+		</tr>
+		<tr><td colspan='3' style='text-align:right;'><input type='button' class='btn-style right' id='b_step3' value='Suivant >' /></td></tr>
+	</tbody>
+	<tbody id='step4' class='hidden'>
+		<tr>
+			<th class='left'>Ma langue quotidienne<br/><span class='hint'>2 choix maximum</span></th>
+			<td>
+				<ol id='Languages' class='selectable-grid'>
+				{% for key, val in choices.languages %}
+					<li class='ui-widget-content' id='{{ key }}'><span class='{{ key }}-16' ></span> {{ val }}</li>
+				{% endfor %}
+				</ol>
+				{{ form_widget(form.Languages) }}
+			</td>
+			<td class='form_error'>{{ form_errors(form.Languages) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>Ma sphère culturelle<br/></th>
+			<td>
+				{{ form_widget(form.withspheres) }}<label for='femme_withspheres'>Je précise ma sphère culturelle</label><br/>
+				<div id='spheres' class='hidden'>
+					<table>
+					{% for lang, sphere in choices.spheres %}
+						<tr id='sphere_{{ lang }}' class='hidden'>
+							<th>{{ lang }}</th>
+							<td>
+								<ol id='sphere_{{ lang|replace({'language-': ''}) }}' class='selectable-grid'>
+								{% for key, val in sphere %}
+									<li class='ui-widget-content' id='{{ key }}'><span class='{{ key }}-16' ></span> {{ val }}</li>
+								{% endfor %}
+								</ol>
+							</td>
+						</tr>
+					{% endfor %}
+					</table>
+					{{ form_widget(form.Spheres) }}
+				</div>
+			</td>
+			<td class='form_error'></td>
+		</tr>
+		<tr><td colspan='3' style='text-align:right;'><input type='button' class='btn-style right' id='b_step4' value='Suivant >' /></td></tr>
+	</tbody>
+	<tbody id='step5' class='hidden'>
+		<tr>
+			<th class='left'>Je suis une maman<br/><span class='hint'>3 choix maximum</span></th>
+			<td>{{ form_widget(form.style) }}</td>
+			<td class='form_error'>{{ form_errors(form.style) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>Mes sports<br/><span class='hint'>5 choix maximum</span></th>
+			<td>
+				<ol id='Sports' class='selectable-grid'>
+				{% for key, val in choices.sports %}
+					<li class='ui-widget-content' id='{{ key }}'>{{ val }}</li>
+				{% endfor %}
+				</ol>
+				{{ form_widget(form.Sports) }}
+			</td>
+			<td class='form_error'>{{ form_errors(form.Sports) }}</td>
+		</tr>
+		<tr><td colspan='3' style='text-align:right;'><input type='button' class='btn-style right' id='b_step5' value='Suivant >' /></td></tr>
+	</tbody>
+	<tbody id='step6' class='hidden'>
+		<tr>
+			<th class='left'>Mes activités préférées</th>
+			<td>
+				<ol id='Activities' class='selectable-grid'>
+				{% for key, val in choices.activities %}
+					<li class='ui-widget-content' id='{{ key }}'>{{ val }}</li>
+				{% endfor %}
+				</ol>
+				{{ form_widget(form.Activities) }}
+			</td>
+			<td class='form_error'>{{ form_errors(form.Activities) }}</td>
+		</tr>
+		<tr><td colspan='3' style='text-align:right;'><input type='button' class='btn-style right' id='b_step6' value='Suivant >' /></td></tr>
+	</tbody>
+	<tbody id='step7' class='hidden'>
+		<tr>
+			<th class='left'>Mes vacances types<br/><span class='hint'>5 choix maximum</span></th>
+			<td>
+				<ol id='Holidays' class='selectable-grid'>
+				{% for key, val in choices.holidays %}
+					<li class='ui-widget-content' id='{{ key }}'>{{ val }}</li>
+				{% endfor %}
+				</ol>
+				{{ form_widget(form.Holidays) }}
+			</td>
+			<td class='form_error'>{{ form_errors(form.Holidays) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>Mes séries préférées</th>
+			<td>{{ form_widget(form.TVShows) }}</td>
+			<td class='form_error'>{{ form_errors(form.TVShows) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>Mes films préférés</th>
+			<td>{{ form_widget(form.Movies) }}</td>
+			<td class='form_error'>{{ form_errors(form.Movies) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>Mes musiques préférées</th>
+			<td>{{ form_widget(form.Musics) }}</td>
+			<td class='form_error'>{{ form_errors(form.Musics) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>Mes personnalités préférées</th>
+			<td>{{ form_widget(form.VIP) }}</td>
+			<td class='form_error'>{{ form_errors(form.VIP) }}</td>
+		</tr>
+	</tbody>
+	<tfoot class='hidden'>
+		<tr><th align='left'></th><td align='right'><br/>{{ form_rest(form) }}<input type='submit' class='btn-style right' id='next' value='Suivant >' /></td></tr>
+	</tfoot>
+</table>
+<script>
+$("#b_step1").click(function () {
+	$("#step1").hide(0);
+	$("#step2").show(0);
+	initGeoComplete('#femme_address','#femme_address_map');
+});
+
+$("#b_step2").click(function () {
+	$("#step1").hide(0);
+	$("#step2").hide(0);
+	$("#step3").show(0);
+	initGeoComplete('#femme_jobaddress', false);
+});
+
+$("#b_step3").click(function () {
+	$("#step1").hide(0);
+	$("#step2").hide(0);
+	$("#step3").hide(0);
+	$("#step4").show(0);
+});
+
+$("#b_step4").click(function () {
+	$("#step1").hide(0);
+	$("#step2").hide(0);
+	$("#step3").hide(0);
+	$("#step4").hide(0);
+	$("#step5").show(0);
+});
+
+$("#b_step5").click(function () {
+	$("#step1").hide(0);
+	$("#step2").hide(0);
+	$("#step3").hide(0);
+	$("#step4").hide(0);
+	$("#step5").hide(0);
+	$("#step6").show(0);
+});
+
+$("#b_step6").click(function () {
+	$("#step1").hide(0);
+	$("#step2").hide(0);
+	$("#step3").hide(0);
+	$("#step4").hide(0);
+	$("#step5").hide(0);
+	$("#step6").hide(0);
+	$("#step7").show(0);
+	$("#registration tfoot").show(0);
+});
+
+$('#femme_withspheres').click(function () {
+	$('#spheres').toggle(0);
+})
+
+function marriage(item) { 
+	if (!item.id) return item.text;
+	return "<span class='"+item.id+"-16' ></span>"+item.text; 
+}
+
+function flag(item) { 
+	if (!item.id) return item.text;
+	return "<span class='"+item.id+"-16' ></span>"+item.text; 
+}
+
+$("#femme_marriage").select2({
+	minimumResultsForSearch: -1,
+	formatResult: marriage,
+	formatSelection: marriage,
+	escapeMarkup: function(m) { return m; }
+});
+
+$("#femme_nowork").select2({
+	minimumResultsForSearch: -1,
+});
+
+initMapStations('#femme_Stations');
+initMapStations('#femme_JobStations');
+
+$(".selectable").selectable({
+	selected: function (event, ui) {
+		$("input#femme_"+ui.selected.parentNode.id).val(ui.selected.id);
+		if (ui.selected.parentNode.id == 'marriage') {
+			if (ui.selected_id == 'Marriage-alone') {
+				$('#since').hide(0);
+			} else {
+				$('#since').show(0);
+			}
+		} else if (ui.selected.parentNode.id == 'job') {
+			if (ui.selected.id == 'oui') {
+				$("#nowork").hide();
+				$("#jobtitle").show();
+				$("#jobaddress").show();
+				$("#jobstation").show();
+			} else {
+				$("#jobtitle").hide();
+				$("#jobaddress").hide();
+				$("#jobstation").hide();
+				$("#nowork").show();
+			}
+		}
+	}
+});
+
+var style = [];
+{% for key, value in choices.style %}
+	value = "{{ value|e }}"; value = value.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'");
+	style.push({ id: "{{ key }}", text: value });
+{% endfor %}
+$('#femme_style').select2({
+	multiple: true,
+	minimumInputLength: 0,
+	maximumSelectionSize: 3,
+	data: style,
+	allowClear: true,
+	width: 'element',
+	placeholder: "Choisissez 3 styles maximum",
+});
+
+$("#femme_diploma").select2({
+	minimumResultsForSearch: -1,
+});
+
+var count_Languages = 0, count_activities=0, count_holidays=0, count_sports=0, count_spheres=[];
+$(".selectable-grid").bind("mousedown", function(e) {
+  e.metaKey = true;
+}).selectable({
+	selected: function (event, ui) {
+		var value = $("input#femme_"+ui.selected.parentNode.id).val();
+		if (typeof value != "undefined") {
+			if (ui.selected.parentNode.id == 'Languages') {
+				 if (count_Languages == 2) {
+					$('#'+ui.selected.id).removeClass('ui-selected')
+				} else {
+					count_Languages++;
+					if ($("#sphere_"+ui.selected.id).length > 0) {
+						$("#sphere_"+ui.selected.id).show(0);
+						$("#sphere_"+ui.selected.id+" > th").html(ui.selected.innerText);
+					}
+					value = value+','+ui.selected.id;
+				}
+			} else if (ui.selected.parentNode.id == 'Sports') {
+				 if (count_sports == 5) {
+					$('#'+ui.selected.id).removeClass('ui-selected')
+					return;
+				} else {
+					count_sports++;
+					value = value+','+ui.selected.id;
+				}
+			} else if (ui.selected.parentNode.id == 'Activities') {
+				 if (count_activities == 10) {
+					$('#'+ui.selected.id).removeClass('ui-selected')
+					return;
+				} else {
+					count_activities++;
+					value = value+','+ui.selected.id;
+				}
+			} else if (ui.selected.parentNode.id == 'Holidays') {
+				 if (count_holidays == 5) {
+					$('#'+ui.selected.id).removeClass('ui-selected')
+					return;
+				} else {
+					count_holidays++;
+					value = value+','+ui.selected.id;
+				}
+			}
+			$("input#femme_"+ui.selected.parentNode.id).val(value);
+		} else {
+			// Spheres
+			if ($.inArray(ui.selected.parentNode.id, count_spheres) < 0) {
+				value = $("#femme_Spheres").val();
+				$("#femme_Spheres").val(value+','+ui.selected.id);
+				count_spheres.push(ui.selected.parentNode.id);
+			} else {
+				$('#'+ui.selected.id).removeClass('ui-selected')
+			}
+		}
+	},
+	unselected: function (event, ui) {
+		var value = $("input#femme_"+ui.unselected.parentNode.id).val();
+		if (typeof value != "undefined") {
+			value = value.replace(ui.unselected.id, '');
+			$("input#femme_"+ui.unselected.parentNode.id).val(value);
+			if (ui.unselected.parentNode.id == 'Languages') {
+				count_Languages--;
+				if ($("#sphere_"+ui.unselected.id).length > 0) {
+					$("#sphere_"+ui.unselected.id).hide(0);
+				}
+			} else if (ui.unselected.parentNode.id == 'Activities') {
+				count_activities--;
+			} else if (ui.unselected.parentNode.id == 'Sports') {
+				count_sports--;
+			}else if (ui.unselected.parentNode.id == 'Holidays') {
+				count_holidays--;
+			}
+		} else {
+			// Spheres
+			if ($.inArray(ui.unselected.parentNode.id, count_spheres) >= 0) {
+				var value = $("#femme_Spheres").val();
+				value = value.replace(ui.unselected.id, '');
+				$("#femme_Spheres").val(value);
+				count_spheres.splice( $.inArray(ui.unselected.parentNode.id, count_spheres), 1 );
+			}
+		}
+	}
+});
+
+var Movies = [];
+{% for key, value in choices.movies %}
+	value = "{{ value|e }}"; value = value.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'");
+	Movies.push({ id: "{{ key }}", text: value });
+{% endfor %}
+$('#femme_Movies').select2({
+	multiple: true,
+	minimumInputLength: 0,
+	data: Movies,
+	allowClear: true,
+	width: 'element',
+	placeholder: "Dites nous vos films préférés",
+	createSearchChoice : createNewSelectItem, 
+});
+
+var TVShows = [];
+{% for key, value in choices.tvshows %}
+	value = "{{ value|e }}"; value = value.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'");
+	TVShows.push({ id: "{{ key }}", text: value });
+{% endfor %}
+$('#femme_TVShows').select2({
+	multiple: true,
+	minimumInputLength: 0,
+	data: TVShows,
+	allowClear: true,
+	width: 'element',
+	placeholder: "Dites nous vos séries préférés",
+	createSearchChoice : createNewSelectItem, 
+});
+
+var Musics = [];
+{% for key, value in choices.musics %}
+	value = "{{ value|e }}"; value = value.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'");
+	Musics.push({ id: "{{ key }}", text: value });
+{% endfor %}
+$('#femme_Musics').select2({
+	multiple: true,
+	minimumInputLength: 0,
+	data: Musics,
+	allowClear: true,
+	width: 'element',
+	placeholder: "Dites nous vos musiques préférés",
+	createSearchChoice : createNewSelectItem, 
+});
+
+var VIP = [];
+{% for key, value in choices.vip %}
+	value = "{{ value|e }}"; value = value.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'");
+	VIP.push({ id: "{{ key }}", text: value });
+{% endfor %}
+$('#femme_VIP').select2({
+	multiple: true,
+	minimumInputLength: 0,
+	data: VIP,
+	allowClear: true,
+	width: 'element',
+	placeholder: "Dites nous vos personnalites préférés",
+	createSearchChoice : createNewSelectItem, 
+});
+
+if ($("#femme_job").val())
+	$("#"+$("#femme_job").val()).addClass("ui-selected");
+
+$(":input").prop('required',null);
+</script>

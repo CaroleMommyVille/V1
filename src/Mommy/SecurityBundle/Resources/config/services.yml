@@ -1,0 +1,94 @@
+parameters:
+    mommy.security.adoptante.form.class: Mommy\SecurityBundle\Controller\AdoptController
+    mommy.security.enceinte.form.class: Mommy\SecurityBundle\Controller\PregnantController
+    mommy.security.enfant.form.class: Mommy\SecurityBundle\Controller\ChildController
+    mommy.security.famille.form.class: Mommy\SecurityBundle\Controller\FamilyController
+    mommy.security.femme.form.class: Mommy\SecurityBundle\Controller\WomanController
+    mommy.security.identity.form.class: Mommy\SecurityBundle\Controller\IdentityController
+    mommy.security.maman.form.class: Mommy\SecurityBundle\Controller\MotherController
+    mommy.security.mamange.form.class: Mommy\SecurityBundle\Controller\MamangeController
+    mommy.security.pma.form.class: Mommy\SecurityBundle\Controller\PMAController
+    mommy.security.presquenceinte.form.class: Mommy\SecurityBundle\Controller\AlmostController
+    mommy.security.pro.form.class: Mommy\SecurityBundle\Controller\ProController
+    mommy.security.projet.form.class: Mommy\SecurityBundle\Controller\ProjectController
+    mommy.security.rien.form.class: Mommy\SecurityBundle\Controller\NothingController
+    mommy.security.trim1.form.class: Mommy\SecurityBundle\Controller\Trim1Controller
+    mommy.security.trim2.form.class: Mommy\SecurityBundle\Controller\Trim2Controller
+    mommy.security.trim3.form.class: Mommy\SecurityBundle\Controller\Trim3Controller
+    mommy.security.type.form.class: Mommy\SecurityBundle\Controller\TypeController
+
+services:
+    mommy.security.authentication_handler:
+        class: Mommy\SecurityBundle\Handler\AuthenticationHandler
+        calls:
+            - [ setContainer, [ @service_container ] ]
+        public: false
+        tags:
+            - { name: 'monolog.logger', channel: 'security' }
+        arguments:
+            - @router
+            - @session
+    mommy.security.identity:
+        class: %mommy.security.identity.form.class%
+        arguments:
+            - "@service_container"
+    mommy.security.type:
+        class: %mommy.security.type.form.class%
+        arguments:
+            - "@service_container"
+    mommy.security.rien:
+        class: %mommy.security.rien.form.class%
+        arguments:
+            - "@service_container"
+    mommy.security.pro:
+        class: %mommy.security.pro.form.class%
+        arguments:
+            - "@service_container"
+    mommy.security.enceinte:
+        class: %mommy.security.enceinte.form.class%
+        arguments:
+            - "@service_container"
+    mommy.security.trim1:
+        class: %mommy.security.trim1.form.class%
+        arguments:
+            - "@service_container"
+    mommy.security.trim2:
+        class: %mommy.security.trim2.form.class%
+        arguments:
+            - "@service_container"
+    mommy.security.trim3:
+        class: %mommy.security.trim3.form.class%
+        arguments:
+            - "@service_container"
+    mommy.security.projet:
+        class: %mommy.security.projet.form.class%
+        arguments:
+            - "@service_container"
+    mommy.security.famille:
+        class: %mommy.security.famille.form.class%
+        arguments:
+            - "@service_container"
+    mommy.security.femme:
+        class: %mommy.security.femme.form.class%
+        arguments:
+            - "@service_container"
+    mommy.security.mamange:
+        class: %mommy.security.mamange.form.class%
+        arguments:
+            - "@service_container"
+    mommy.security.presquenceinte:
+        class: %mommy.security.presquenceinte.form.class%
+        arguments:
+            - "@service_container"
+    mommy.security.enfant:
+        class: %mommy.security.enfant.form.class%
+        arguments:
+            - "@service_container"
+    mommy.security.adoptante:
+        class: %mommy.security.adoptante.form.class%
+        arguments:
+            - "@service_container"
+    mommy.security.pma:
+        class: %mommy.security.pma.form.class%
+        arguments:
+            - "@service_container"

@@ -1,0 +1,60 @@
+<h1>Mommy<span>Search</span></h1>
+{{ form_widget(form.term) }}
+<script>
+$.widget( "custom.catcomplete", $.ui.autocomplete, {
+    _create: function() {
+      this._super();
+        this.widget().menu( "option", "items", "> :not(.ui-autocomplete-category)" );
+    },
+    _renderMenu: function( ul, items ) {
+        var that = this,
+        currentCategory = "";
+        $.each( items, function( index, item ) {
+            var li;
+            if ( item.category != currentCategory ) {
+                ul.append( "<li class='ui-autocomplete-category'>" + item.category + "</li>" );
+                currentCategory = item.category;
+            }
+            li = that._renderItemData( ul, item );
+            if ( item.category ) {
+                li.attr( "aria-label", item.link); //item.category + " : " + item.label + '<br/><span class="hint">' + item.detail + '</span>' );
+            }
+        });
+    },
+    _renderItem: function( ul, item ) {
+        return $( "<li>" )
+            .append( "<a href='"+item.link+"'>" + item.label + "<br/><span class='hint'>" + item.detail + "</a>" )
+            .appendTo( ul );
+    },
+    select: function( event, ui ) {
+        window.location.hash = ui.item.link;
+        $(this).val(''); return false;
+    }
+});
+var cache = {};
+$("#form_term").catcomplete({
+    delay: 0,
+    source: function( request, response ) {
+        var term = request.term;
+        if ( term in cache ) {
+            response( cache[ term ] );
+            return;
+        }
+        $.getJSON( "/recherche/term.json", request, function( data, status, xhr ) {
+            cache[ term ] = data;
+            response( data );
+        });
+    },
+    select: function( event, ui ) {
+        window.location.hash = ui.item.link;
+        $(this).val(''); return false;
+    }
+}).change(function() {
+    window.location.hash = $(this).val();
+    $(this).val(''); return false;
+}).submit(function() {
+    event.preventDefault();
+    window.location.hash = $(this).val();
+    $(this).val(''); return false;
+});
+</script>

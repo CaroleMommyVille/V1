@@ -1,0 +1,6 @@
+<div>
+	<h1>Mes <span>Albums</span></h1>
+	<p><img src='/img/boutique.png' /></p>
+	<p><span class='add-friend'></span> Nouvel album</p>
+	<p>Voir tous les albums</p>
+</div>

@@ -1,0 +1,28 @@
+<h1>Une remarque, une question ?</h1>
+<p>Envoyez-nous un message via ce formulaire express et nous verrons ce que nous pouvons faire et comment y répondre au mieux.</p>
+<p id='feedback_thanks'></p>
+{{ form(form) }}
+<script>
+$(function() {
+	$('form#feedback').submit(function (event) {
+		$("#loading").show();
+		event.preventDefault();
+		$.ajax({
+			url: $('form#feedback').attr('action'),
+			type: $('form#feedback').attr('method'),
+			data: $('form#feedback').serialize(),
+		})
+		.done(function (data) {
+			$("#form_send").hide(0);
+			$("#feedback_thanks").hide(0);
+			$("#feedback_thanks").html("Merci de votre retour");
+			$("#feedback_thanks").fadeIn(200);
+			$('#footerSlideContent').delay(2500).animate({ height: '0px' });
+			$("#footerSlideButton").trigger("click");
+			$("#loading").hide();
+			$("#feedback_thanks").html('');
+			$("#form_send").show(0);
+		});
+	})
+});
+</script>

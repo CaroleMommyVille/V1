@@ -1,0 +1,25 @@
+<script>
+var login = '<li id="login-form-lost">Si vous avez oublié vos codes d\'accès,<br/>cliquez ici</li>'
+	+ '<li id="login-form">'
+	+ '<form action="{{ path('login_check') }}" method="post" id="login">'
+	+ '<input type="text" placeholder="Identifiant" id="_username" name="_username" value="{{ last_username }}" /> '
+	+ '<input type="password" placeholder="Mot de passe" id="_password" name="_password" /> '
+	+ '<input type="checkbox" id="_remember_me" name="_remember_me" checked="checked" /><label for="_remember_me" title="Je reste connecté"></label> '
+	+ '<input type="submit" name="_login" id="_login" value="Connectez-vous" class="btn-style" /> '
+	+ '</form>'
+	+ '</li>';
+$('nav#menu').append(login);
+$('label').tooltip();
+$('#login-form-lost').click(function() {
+	window.location.hash = "#{{ path('login-lost-password') }}";
+});
+{% if flash.code is defined %}
+{% if flash.code == 'ERR_THANKS' %}
+var msg = '<p><span class="ui-icon ui-icon-circle-check" style="float:left; margin:0 7px 50px 0;"></span>{{ flash.message|e }}</p>';
+{% else %}
+var msg = '<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>{{ flash.message|e }}</p>';
+console.log('{{ flash.field }}');
+{% endif %}
+validationDialog('{{ flash.title }}', msg);
+{% endif %}
+</script>

@@ -1,0 +1,206 @@
+<h2>Quel professionnel suis-je ?</h2>
+<table class='small-block'>
+	<tbody>
+		<tr>
+			<th class='left'>Mon activité<sup class='required'>*</sup></th>
+			<td>{{ form_widget(form.activity) }}</td>
+			<td class='form_error'>{{ form_errors(form.activity) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>Le nom de ma société<sup class='required'>*</sup></th>
+			<td>{{ form_widget(form.name) }}</td>
+			<td class='form_error'>{{ form_errors(form.name) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>L'adresse de ma société<sup class='required'>*</sup></th>
+			<td>{{ form_widget(form.address) }}</td>
+			<td class='form_error'>{{ form_errors(form.address) }}</td>
+		</tr>
+		<tr class='map_row'>
+			<td colspan='2'><div id='pro_address_map'></div></td>
+		</tr>
+		<tr>
+			<th class='left'>Ma station/Mon arrêt<sup class='required'>*</sup><br/><img src='/img/icones/transports.png' alt='Transports'/></th>
+			<td>{{ form_widget(form.stations) }}</td>
+			<td class='form_error'>{{ form_errors(form.stations) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>Mon téléphone<sup class='required'>*</sup></th>
+			<td>{{ form_widget(form.phone) }}</td>
+			<td class='form_error'>{{ form_errors(form.phone) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>Mes horaires<sup class='required'>*</sup></th>
+			<td colspan='2'>
+				<table class='small-block'>
+					<tr>
+						<th rowspan='2'>Lundi</th>
+						<td>matin</td>
+						<td>{{ form_widget(form.mondaymorningstart) }}</td>
+						<td>{{ form_widget(form.mondaymorningend) }}</td>
+						<td class='form_error'>
+							{{ form_errors(form.mondaymorningstart) }}
+							{{ form_errors(form.mondaymorningend) }}
+						</td>
+					</tr>
+					<tr>
+						<td>après-matin</td>
+						<td>{{ form_widget(form.mondayafternoonstart) }}</td>
+						<td>{{ form_widget(form.mondayafternoonend) }}</td>
+						<td class='form_error'>
+							{{ form_errors(form.mondayafternoonstart) }}
+							{{ form_errors(form.mondayafternoonend) }}
+						</td>
+					</tr>
+					<tr>
+						<th rowspan='2'>Mardi</th>
+						<td>matin</td>
+						<td>{{ form_widget(form.tuesdaymorningstart) }}</td>
+						<td>{{ form_widget(form.tuesdaymorningend) }}</td>
+						<td class='form_error'>
+							{{ form_errors(form.tuesdaymorningstart) }}
+							{{ form_errors(form.tuesdaymorningend) }}
+						</td>
+					</tr>
+					<tr>
+						<td>après-matin</td>
+						<td>{{ form_widget(form.tuesdayafternoonstart) }}</td>
+						<td>{{ form_widget(form.tuesdayafternoonend) }}</td>
+						<td class='form_error'>
+							{{ form_errors(form.tuesdayafternoonstart) }}
+							{{ form_errors(form.tuesdayafternoonend) }}
+						</td>
+					</tr>
+					<tr>
+						<th rowspan='2'>Mercredi</th>
+						<td>matin</td>
+						<td>{{ form_widget(form.wednesdaymorningstart) }}</td>
+						<td>{{ form_widget(form.wednesdaymorningend) }}</td>
+						<td class='form_error'>
+							{{ form_errors(form.wednesdaymorningstart) }}
+							{{ form_errors(form.wednesdaymorningend) }}
+						</td>
+					</tr>
+					<tr>
+						<td>après-matin</td>
+						<td>{{ form_widget(form.wednesdayafternoonstart) }}</td>
+						<td>{{ form_widget(form.wednesdayafternoonend) }}</td>
+						<td class='form_error'>
+							{{ form_errors(form.wednesdayafternoonstart) }}
+							{{ form_errors(form.wednesdayafternoonend) }}
+						</td>
+					</tr>
+					<tr>
+						<th rowspan='2'>Jeudi</th>
+						<td>matin</td>
+						<td>{{ form_widget(form.thursdaymorningstart) }}</td>
+						<td>{{ form_widget(form.thursdaymorningend) }}</td>
+						<td class='form_error'>
+							{{ form_errors(form.thursdaymorningstart) }}
+							{{ form_errors(form.thursdaymorningend) }}
+						</td>
+					</tr>
+					<tr>
+						<td>après-matin</td>
+						<td>{{ form_widget(form.thursdayafternoonstart) }}</td>
+						<td>{{ form_widget(form.thursdayafternoonend) }}</td>
+						<td class='form_error'>
+							{{ form_errors(form.thursdayafternoonstart) }}
+							{{ form_errors(form.thursdayafternoonend) }}
+						</td>
+					</tr>
+					<tr>
+						<th rowspan='2'>Vendredi</th>
+						<td>matin</td>
+						<td>{{ form_widget(form.fridaymorningstart) }}</td>
+						<td>{{ form_widget(form.fridaymorningend) }}</td>
+						<td class='form_error'>
+							{{ form_errors(form.fridayafternoonstart) }}
+							{{ form_errors(form.fridayafternoonend) }}
+						</td>
+					</tr>
+					<tr>
+						<td>après-matin</td>
+						<td>{{ form_widget(form.fridayafternoonstart) }}</td>
+						<td>{{ form_widget(form.fridayafternoonend) }}</td>
+						<td class='form_error'>
+							{{ form_errors(form.fridaymorningstart) }}
+							{{ form_errors(form.fridaymorningend) }}
+						</td>
+					</tr>
+					<tr>
+						<th rowspan='2'>Samedi</th>
+						<td>matin</td>
+						<td>{{ form_widget(form.saturdaymorningstart) }}</td>
+						<td>{{ form_widget(form.saturdaymorningend) }}</td>
+						<td class='form_error'>
+							{{ form_errors(form.saturdaymorningstart) }}
+							{{ form_errors(form.saturdaymorningend) }}
+						</td>
+					</tr>
+					<tr>
+						<td>après-matin</td>
+						<td>{{ form_widget(form.saturdayafternoonstart) }}</td>
+						<td>{{ form_widget(form.saturdayafternoonend) }}</td>
+						<td class='form_error'>
+							{{ form_errors(form.saturdayafternoonstart) }}
+							{{ form_errors(form.saturdayafternoonend) }}
+						</td>
+					</tr>
+					<tr>
+						<th rowspan='2'>Dimanche</th>
+						<td>matin</td>
+						<td>{{ form_widget(form.sundaymorningstart) }}</td>
+						<td>{{ form_widget(form.sundaymorningend) }}</td>
+						<td class='form_error'>
+							{{ form_errors(form.sundaymorningstart) }}
+							{{ form_errors(form.sundaymorningend) }}
+						</td>
+					</tr>
+					<tr>
+						<td>après-matin</td>
+						<td>{{ form_widget(form.sundayafternoonstart) }}</td>
+						<td>{{ form_widget(form.sundayafternoonend) }}</td>
+						<td class='form_error'>
+							{{ form_errors(form.sundayafternoonstart) }}
+							{{ form_errors(form.sundayafternoonend) }}
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<tr>
+			<th class='left'>Ma description<sup class='required'>*</sup></th>
+			<td>{{ form_widget(form.description) }}</td>
+			<td class='form_error'>{{ form_errors(form.description) }}</td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr><th align='left'></th><td align='right'><br/>{{ form_rest(form) }}<input type='submit' class='btn-style right' id='next' value='Suivant >' /></td></tr>
+	</tfoot>
+</table>
+<script>
+$("#pro_description").maxlength({
+	max: 600,
+});
+
+$("#pro_opening").maxlength({
+	max: 600,
+});
+
+$('#pro_activity').select2({
+	minimumInputLength: 2,
+	width: 'element',
+	placeholder: 'Sélectionnez une activité',
+});
+
+$('.daily').select2({
+	minimumResultsForSearch: 0,
+	width: 'copy',
+	placeholder: '',
+});
+
+initGeoComplete('#pro_address','#pro_address_map');
+
+initMapStations('#pro_stations');
+</script>

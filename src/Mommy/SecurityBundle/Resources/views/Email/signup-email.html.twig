@@ -1,0 +1,15 @@
+{% extends '::base.html.twig' %}
+
+{% block title %} :: Validez votre inscription{% endblock %}
+
+{% block center %}
+Bonjour {{ firstname }} {{ lastname|slice(0,1) }}.<br/>
+<br/>
+Nous vous remercions de votre inscription sur le site de MommyVille. Afin de valider votre inscription et totalement sur notre site, veuillez cliquez sur le lien ci-dessous où le recopier dans la barre d'adresse de votre navigateur :<br/>
+<br/>
+<a href='{{ url }}'>{{ url }}</a><br/>
+<br/>
+A très vite sur le site !<br/>
+Sincèrement vôtre,<br/>
+L'équipe de MommyVille
+{% endblock %}

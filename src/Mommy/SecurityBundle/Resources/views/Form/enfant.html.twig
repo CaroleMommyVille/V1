@@ -1,0 +1,491 @@
+<h2>Votre enfant n°{{ choices.nb }}</h2>
+<table class='small-block'>
+	<tbody id='step1'>
+		<tr>
+			<th class='left'>Prénom</th>
+			<td>{{ form_widget(form.name) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>Sexe</th>
+			<td>
+				<ol id='sex' class='selectable'>
+					<li class='ui-widget-content' id='sex-boy'>Garçon</li>
+					<li class='ui-widget-content' id='sex-girl'>Fille</li>
+				</ol>
+				{{ form_widget(form.sex) }}
+			</td>
+		</tr>
+		<tr>
+			<th class='left'>Jumeau / Triplé de ...</th>
+			<td>{{ form_widget(form.twin) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>Date de naissance</th>
+			<td>{{ form_widget(form.birthday) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>Adopté ?</th>
+			<td>
+				<ol id='adopted' class='selectable'>
+					<li class='ui-widget-content' id='oui'>Oui</li>
+					<li class='ui-widget-content' id='non'>Non</li>
+				</ol>
+				{{ form_widget(form.adopted) }}
+			</td>
+		</tr>
+		<tr><td colspan='3' style='text-align:right;'><input type='button' class='btn-style right' id='b_step1' value='Suivant >' /></td></tr>
+	</tbody>
+	<tbody id='step2' class='hidden'>
+		<tr id='country'>
+			<th class='left'>Dans quel pays l'avez-vous adopté ?</th>
+			<td>{{ form_widget(form.country) }}</td>
+		</tr>
+		<tr class='not-adopted hidden' >
+			<th class='left'>Je suis tombée enceinte</th>
+			<td>{{ form_widget(form.pregnancyspeed) }}</td>
+		</tr>
+		<tr class='hidden' id='reaction'>
+			<th class='left'>Quelle a été votre réaction</th>
+			<td>{{ form_widget(form.reaction) }}</td>
+		</tr>
+		<tr class='not-adopted hidden'>
+			<th class='left'>Est-il né à date ?</th>
+			<td>
+				<ol id='ondate' class='selectable'>
+					<li class='ui-widget-content' id='oui'>Oui</li>
+					<li class='ui-widget-content' id='non'>Non</li>
+				</ol>
+				{{ form_widget(form.ondate) }}
+			</td>
+		</tr>
+		<tr id='sa' class='not-adopted hidden'>
+			<th class='left'>A combien de SA avez-vous accouché ?</th>
+			<td>{{ form_widget(form.sa) }}</td>
+		</tr>
+		<tr class='not-adopted hidden'>
+			<th class='left'>Où avez-vous accouché ?<br/><span class='hint'>Votre réponse n'est pas proposée ? Saisissez la directement</span></th>
+			<td>{{ form_widget(form.maternity) }}</td>
+		</tr>
+		<tr class='not-adopted hidden'>
+			<th class='left'>Quel était votre préparation à l'accouchement ?</th>
+			<td>{{ form_widget(form.preparation) }}</td>
+		</tr>
+		<tr class='not-adopted hidden'>
+			<th class='left'>Comment avez-vous accouché ?</th>
+			<td>{{ form_widget(form.deliverymethod) }}</td>
+		</tr>
+		<tr class='not-adopted hidden'>
+			<th class='left'>Avez vous allaité ...</th>
+			<td>{{ form_widget(form.breastfed) }}</td>
+		</tr>
+		<tr><td colspan='3' style='text-align:right;'><br/><input type='button' class='btn-style right' id='b_step2' value='Suivant >' /></td></tr>
+	</tbody>
+	<tbody id='step3' class='hidden'>
+		<tr class='not-adopted'>
+			<th class='left'>Tout s'est bien passé ?</th>
+			<td>
+				<ol id='status' class='selectable'>
+					<li class='ui-widget-content' id='oui'>Oui</li>
+					<li class='ui-widget-content' id='non'>Non</li>
+				</ol>
+				{{ form_widget(form.status) }}
+			</td>
+		</tr>
+		<tr id='PathologyPregnancy' class='not-adopted hidden'>
+			<th class='left'>Mes pathologies de grossesse</th>
+			<td>{{ form_widget(form.PathologyPregnancy) }}</td>
+		</tr>
+		<tr id='PathologyBaby' class='not-adopted hidden'>
+			<th class='left'>Mes pathologies bébé</th>
+			<td>{{ form_widget(form.PathologyBaby) }}</td>
+		</tr>
+		<tr class='not-adopted hidden'>
+			<th class='left'>Mes symptômes grossesse</th>
+			<td>{{ form_widget(form.PregnancySymptoms) }}</td>
+		</tr>
+		<tr class='not-adopted hidden'>
+			<th class='left'>C'était le plan d'accouchement que j'avais prévu ?</th>
+			<td>
+				<ol id='planned' class='selectable'>
+					<li class='ui-widget-content' id='oui'>Oui</li>
+					<li class='ui-widget-content' id='non'>Non</li>
+				</ol>
+				{{ form_widget(form.planned) }}
+			</td>
+		</tr>
+		<tr class='not-adopted hidden' id='change'>
+			<th class='left'>Pourquoi ce changement ?<br/><span class='hint'>Votre réponse n'est pas proposée ? Saisissez la directement</span></th>
+			<td>{{ form_widget(form.methodchange) }}</td>
+		</tr>
+		<tr class='not-adopted hidden'>
+			<th class='left'>J'ai eu une épisiotomie ?</th>
+			<td>
+				<ol id='Episiotomie' class='selectable'>
+					<li class='ui-widget-content' id='oui'>Oui</li>
+					<li class='ui-widget-content' id='non'>Non</li>
+				</ol>
+				{{ form_widget(form.Episiotomie) }}
+			</td>
+		</tr>
+		<tr class='not-adopted hidden'>
+			<th class='left'>J'ai eu des complications ?</th>
+			<td>
+				<ol id='complicated' class='selectable'>
+					<li class='ui-widget-content' id='oui'>Oui</li>
+					<li class='ui-widget-content' id='non'>Non</li>
+				</ol>
+				{{ form_widget(form.complicated) }}
+			</td>
+		</tr>
+		<tr class='not-adopted hidden' id='complications'>
+			<th class='left'>Quelles complications ?</th>
+			<td>{{ form_widget(form.complications) }}</td>
+		</tr>
+		<tr><td colspan='3' style='text-align:right;'><br/><input type='button' class='btn-style right' id='b_step3' value='Suivant >' /></td></tr>
+	</tbody>
+	<tbody id='step4' class='hidden'>
+		<tr>
+			<th class='left'>Est-ce que mon enfant souffre d'une maladie chronique ?</th>
+			<td>
+				<ol id='sick' class='selectable'>
+					<li class='ui-widget-content' id='oui'>Oui</li>
+					<li class='ui-widget-content' id='non'>Non</li>
+				</ol>
+				{{ form_widget(form.sick) }}
+			</td>
+		</tr>
+		<tr id='disease' class='hidden'>
+			<th class='left'>Laquelle ?</th>
+			<td>{{ form_widget(form.disease) }}</td>
+		</tr>
+		<tr id='heart' class='hidden'>
+			<th class='left'>Quel problème de coeur a-t-il ?</th>
+			<td>{{ form_widget(form.diseaseheart) }}</td>
+		</tr>
+		<tr><td colspan='3' style='text-align:right;'><br/><input type='button' class='btn-style right' id='b_step4' value='Suivant >' /></td></tr>
+	</tbody>
+	<tbody id='step5' class='hidden'>
+		<tr class='baby'>
+			<th class='left'>Quel est mon mode de garde ?</th>
+			<td>{{ form_widget(form.daycare) }}</td>
+		</tr>
+		<tr class='baby' class='hidden'>
+			<th class='left'>Quelles sont ses hobbies ?<br/><span class='hint'>Votre réponse n'est pas proposée ? Saisissez la directement</span></th>
+			<td>{{ form_widget(form.ChildHobby) }}</td>
+		</tr>
+		<tr class='young' class='hidden'>
+			<th class='left'>Quelle est mon école ?</th>
+			<td>{{ form_widget(form.schooltype) }}</td>
+		</tr>
+		<tr class='young' class='hidden'>
+			<th class='left'>Quels sports pratique-t-il ?<br/><span class='hint'>Votre réponse n'est pas proposée ? Saisissez la directementt</span></th>
+			<td>{{ form_widget(form.ChildSport) }}</td>
+		</tr>
+	</tbody>
+	<tfoot class='hidden'>
+		<tr><th align='left'></th><td align='right'><br/>{{ form_rest(form) }}<input type='submit' class='btn-style right' id='next' value='Suivant >' /></td></tr>
+	</tfoot>
+</table>
+<script>
+$("#b_step1").click(function () {
+	$("#step1").hide(0);
+	$("#step2").show(0);
+});
+
+$("#b_step2").click(function () {
+	$("#step1").hide(0);
+	$("#step2").hide(0);
+	$("#step3").show(0);
+});
+
+$("#b_step3").click(function () {
+	$("#step1").hide(0);
+	$("#step2").hide(0);
+	$("#step3").hide(0);
+	$("#step4").show(0);
+});
+
+$("#b_step4").click(function () {
+	$("#step1").hide(0);
+	$("#step2").hide(0);
+	$("#step3").hide(0);
+	$("#step4").hide(0);
+	$("#step5").show(0);
+	$("#registration tfoot").show(0);
+});
+
+function weeks(item) { 
+    if (item.id <= 1)
+        return item.text+' semaine';
+    return item.text+' semaines'; 
+}
+
+function address(item) { 
+    if (typeof item.address == 'undefined')
+        return item.text; 
+    item.address = item.address.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'").replace(/&amp;/gi, "&");
+    return item.text+'<br/><span class="hint">'+item.address+'</span>'; 
+}
+
+$(".selectable").selectable({
+    selected: function (event, ui) {
+        $("input#enfant_"+ui.selected.parentNode.id).val(ui.selected.id);
+        switch (ui.selected.parentNode.id) {
+            case 'adopted':
+                if (ui.selected.id == 'oui') {
+                    $(".not-adopted").hide();
+                    $("#country").show();
+                } else {
+                    $("#country").hide();
+                    $(".not-adopted").show();
+                    $("#sa").hide(0);
+                    $("#disease").hide(0);
+                    $('#PathologyPregnancy').hide(0);
+                    $('#PathologyBaby').hide(0);
+                    $("#change").hide(0);
+                    $("#heart").hide(0);
+                    $("#complications").hide(0);
+                }
+                break;
+            case 'ondate':
+                if (ui.selected.id == 'non')
+                    $("#sa").show();
+                else
+                    $("#sa").hide();
+                break;
+            case 'sick':
+                if (ui.selected.id == 'oui')
+                    $("#disease").show();
+                else
+                    $("#disease").hide();
+                break;
+            case 'status':
+                if (ui.selected.id == 'non') {
+                    $('#PathologyPregnancy').slideDown(300);
+                    $('#PathologyBaby').slideDown(300);
+                } else {
+                    $('#PathologyPregnancy').slideUp(300);
+                    $('#PathologyBaby').slideUp(300);
+                }
+                break;
+            case 'plan':
+                if (ui.selected.id == 'non') {
+                    $("#change").show();
+                } else {
+                    $("#change").hide();
+                }
+                break;
+            case 'complicated':
+                if (ui.selected.id == 'oui') {
+                    $("#complications").show();
+                } else {
+                    $("#complications").hide();
+                }
+                break;
+        }
+    }
+});
+
+$("#enfant_country").select2({
+    minimumResultsForSearch: -1,
+});
+
+$("#enfant_pregnancyspeed").select2({
+    minimumResultsForSearch: -1,
+}).on('change', function(e) {
+    if (e.val == 'speed-nonprevu')
+        $("#reaction").show(0);
+    if (e.val != 'speed-nonprevu')
+        $("#reaction").hide(0);
+});
+
+$("#enfant_reaction").select2({
+    minimumResultsForSearch: -1,
+});
+
+$("#enfant_sa").select2({
+    minimumResultsForSearch: -1,
+    formatResult: weeks,
+    formatSelection: weeks,
+});
+
+var maternity = [];
+{% for key, value in choices.maternity %}
+	maternity.push({ id: "{{ key }}", text: "{{ value.text|e }}", address: "{{ value.addr|e }}" });
+{% endfor %}
+$("#enfant_maternity").select2({
+	multiple: false,
+	data: maternity,
+    minimumInputLength: 0,
+    width: 'element',
+    placeholder: "Sélectionnez votre maternité",
+    formatResult: address,
+    formatSelection: address,
+    createSearchChoice : createNewSelectItem, 
+	escapeMarkup: function(m) { return m; }
+});
+
+var preparation = [];
+{% for key, value in choices.preparation %}
+	value = "{{ value|e }}"; value = value.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'").replace(/&amp;/gi, "&");
+	preparation.push({ id: "{{ key }}", text: value });
+{% endfor %}
+$("#enfant_preparation").select2({
+	multiple: true,
+	data: preparation,
+    minimumInputLength: 0,
+    width: 'element',
+    placeholder: "Sélectionnez votre méthode d'accouchement",
+    createSearchChoice : createNewSelectItem, 
+});
+
+var deliverymethod = [];
+{% for key, value in choices.deliverymethod %}
+	value = "{{ value|e }}"; value = value.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'").replace(/&amp;/gi, "&");
+	deliverymethod.push({ id: "{{ key }}", text: value });
+{% endfor %}
+$("#enfant_deliverymethod").select2({
+	multiple: false,
+	data: deliverymethod,
+    minimumInputLength: 0,
+    width: 'element',
+    placeholder: "Sélectionnez votre méthode d'accouchement",
+    createSearchChoice : createNewSelectItem, 
+});
+
+$("#enfant_change").select2({
+    minimumResultsForSearch: -1,
+});
+
+$("#enfant_breastfed").select2({
+    minimumResultsForSearch: -1,
+});
+
+var disease = [];
+{% for key, value in choices.disease %}
+	value = "{{ value|e }}"; value = value.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'").replace(/&amp;/gi, "&");
+	disease.push({ id: "{{ key }}", text: value });
+{% endfor %}
+$("#enfant_disease").select2({
+	multiple: false,
+	data: disease,
+    minimumInputLength: 0,
+    width: 'element',
+    placeholder: "Sélectionnez votre méthode d'accouchement",
+    createSearchChoice : createNewSelectItem, 
+});
+
+$("#enfant_heart").select2({
+    minimumResultsForSearch: -1,
+}).on('change', function(e) {
+    if (typeof e.added != "undefined") {
+        if (e.added.id == 'disease-cardiaque')
+            $("#hear").show(0);
+    }
+    if (typeof e.removed != "undefined") {
+        if (e.removed.id == 'disease-cardiaque')
+            $("#hear").hide(0);
+    }
+});
+
+$("#enfant_daycare").select2({
+    minimumResultsForSearch: -1,
+});
+
+var ChildHobby = [];
+{% for key, value in choices.hobby %}
+	value = "{{ value|e }}"; value = value.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'").replace(/&amp;/gi, "&");
+	ChildHobby.push({ id: "{{ key }}", text: value });
+{% endfor %}
+$("#enfant_ChildHobby").select2({
+    multiple: true,
+    data: ChildHobby,
+    minimumInputLength: 0,
+    width: 'element',
+    placeholder: "Sélectionnez ses hobbies",
+    createSearchChoice : createNewSelectItem, 
+});
+
+$("#enfant_schooltype").select2({
+    minimumResultsForSearch: -1,
+});
+
+var ChildSport = [];
+{% for key, value in choices.sport %}
+	value = "{{ value|e }}"; value = value.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'").replace(/&amp;/gi, "&");
+	ChildSport.push({ id: "{{ key }}", text: value });
+{% endfor %}
+$("#enfant_ChildSport").select2({
+    multiple: true,
+    data: ChildSport,
+    minimumInputLength: 0,
+    width: 'element',
+    placeholder: "Sélectionnez ses sports",
+    createSearchChoice : createNewSelectItem, 
+});
+
+var PathologyPregnancy = [];
+{% for key, value in choices.pathogro %}
+	value = "{{ value|e }}"; value = value.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'").replace(/&amp;/gi, "&");
+	PathologyPregnancy.push({ id: "{{ key }}", text: value });
+{% endfor %}
+$("#enfant_PathologyPregnancy").select2({
+    data: PathologyPregnancy,
+    multiple: true,
+    minimumInputLength: 0,
+    width: 'element',
+	placeholder: "Sélectionnez vos pathologies grossesse",
+});
+
+var PathologyBaby = [];
+{% for key, value in choices.pathobb %}
+	value = "{{ value|e }}"; value = value.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'").replace(/&amp;/gi, "&");
+	PathologyBaby.push({ id: "{{ key }}", text: value });
+{% endfor %}
+$("#enfant_PathologyBaby").select2({
+	data: PathologyBaby,
+    multiple: true,
+    minimumInputLength: 0,
+    width: 'element',
+    placeholder: "Sélectionnez vos pathologies bébé",
+});
+
+var PregnancySymptoms = [];
+{% for key, value in choices.symptoms %}
+	value = "{{ value|e }}"; value = value.replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'").replace(/&amp;/gi, "&");
+	PregnancySymptoms.push({ id: "{{ key }}", text: value });
+{% endfor %}
+$("#enfant_PregnancySymptoms").select2({
+	data: PregnancySymptoms,
+    multiple: true,
+    minimumInputLength: 0,
+    width: 'element',
+    placeholder: "Sélectionnez vos symptômes",
+});
+
+$("#enfant_change").select2({
+    minimumInputLength: 0,
+    createSearchChoice : createNewSelectItem, 
+});
+
+if ($("#child_adopted").val())
+	$("#"+$("#child_adopted").val()).addClass("ui-selected");
+if ($("#child_ondate").val())
+	$("#"+$("#child_ondate").val()).addClass("ui-selected");
+if ($("#child_status").val())
+	$("#"+$("#child_status").val()).addClass("ui-selected");
+if ($("#child_plan").val())
+	$("#"+$("#child_plan").val()).addClass("ui-selected");
+if ($("#child_episio").val())
+	$("#"+$("#child_episio").val()).addClass("ui-selected");
+if ($("#child_sick").val())
+	$("#"+$("#child_sick").val()).addClass("ui-selected");
+if ($("#child_complicated").val())
+	$("#"+$("#child_complicated").val()).addClass("ui-selected");
+
+$("#enfant_maternity").change(function () {
+	$("#enfant_maternity").val($("#enfant_maternity").val().replace(/&quot;/gi, "\"").replace(/&#039;/gi, "'")).replace(/&amp;/gi, "&");
+});
+
+$(":input").prop('required',null);
+</script>

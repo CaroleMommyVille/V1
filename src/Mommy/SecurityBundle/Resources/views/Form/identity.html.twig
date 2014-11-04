@@ -1,0 +1,38 @@
+<table class='small-block'>
+	<tbody>
+		<tr>
+			<th class='left'>Votre nom<sup class='required'>*</sup><br/><span class='hint'>Seule la première lettre sera utilisée</span></th>
+			<td>{{ form_widget(form.lastname) }}</td>
+			<td class='form_error'>{{ form_errors(form.lastname) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>Votre prénom<sup class='required'>*</sup></th>
+			<td>{{ form_widget(form.firstname) }}</td>
+			<td class='form_error'>{{ form_errors(form.firstname) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>Votre e-mail<sup class='required'>*</sup><br/><span class='hint'>Il vous servira d'identifiant</span></th>
+			<td>{{ form_widget(form.email) }}</td>
+			<td class='form_error'>{{ form_errors(form.email) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>Votre mot de passe<sup class='required'>*</sup></th>
+			<td>{{ form_widget(form.password) }}</td>
+			<td class='form_error'>{{ form_errors(form.password) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>Votre date de naissance<sup class='required'>*</sup></th>
+			<td>{{ form_widget(form.birthday) }}</td>
+			<td class='form_error'>{{ form_errors(form.birthday) }}</td>
+		</tr>
+		<tr>
+			<th style='text-align:right;' colspan=2>
+				{{ form_widget(form.cnil) }}<label for='identity_cnil'>Vous avez pris connaissance de nos <a target="_new" href="#{{ path('mommy_cgu') }}">Conditions générales</a></label>
+			</th>
+			<td class='form_error'>{{ form_errors(form.cnil) }}</td>
+		</tr>
+	</tbody>
+	<tfoot>
+		<tr><th align='left'></th><td align='right'><br/>{{ form_rest(form) }}<input type='submit' class='btn-style right' id='next' value='Suivant >' /></td></tr>
+	</tfoot>
+</table>

@@ -1,0 +1,255 @@
+<h2>Je suis une maman adoptante</h2>
+<table class='small-block'>
+	<tbody id='step1'>
+		<tr>
+			<th class='left'>Mon enfant est déjà arrivé?</th>
+			<td>
+				<ol id='arrived' class='selectable'>
+					<li class='ui-widget-content' id='oui'>Oui</li>
+					<li class='ui-widget-content' id='non'>Non</li>
+				</ol>
+				{{ form_widget(form.arrived) }}
+			</td>
+			<td class='form_error'>{{ form_errors(form.arrived) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>J'ai commencé ma procédure depuis combien de temps ?</th>
+			<td>{{ form_widget(form.started) }}</td>
+			<td class='form_error'>{{ form_errors(form.started) }}</td>
+		</tr>
+		<tr id='lasted' class='hidden'>
+			<th class='left'>Combien de temps a duré ma procédure ?</th>
+			<td>{{ form_widget(form.lasted) }}</td>
+			<td class='form_error'>{{ form_errors(form.lasted) }}</td>
+		</tr>
+		<tr><td colspan='3' style='text-align:right;'><br/><input type='button' class='btn-style right' id='b_step1' value='Suivant >' /></td></tr>
+	</tbody>
+	<tbody id='step2' class='hidden'>
+		<tr>
+			<th class='left'>Mon agrément ?</th>
+			<td>{{ form_widget(form.approval) }}</td>
+			<td class='form_error'>{{ form_errors(form.approval) }}</td>
+		</tr>
+		<tr id='resort' class='hidden'>
+			<th class='left'>J'ai lancé un recours administratif</th>
+			<td>
+				<ol id='resort' class='selectable'>
+					<li class='ui-widget-content' id='oui'>Oui</li>
+					<li class='ui-widget-content' id='non'>Non</li>
+				</ol>
+				{{ form_widget(form.resort) }}
+			</td>
+			<td class='form_error'>{{ form_errors(form.resort) }}</td>
+		</tr>
+		<tr id='anotherway' class='hidden'>
+			<th class='left'>Comment souhaitez-vous faire pour adopter ?</th>
+			<td>{{ form_widget(form.anotherway) }}</td>
+			<td class='form_error'>{{ form_errors(form.anotherway) }}</td>
+		</tr>
+		<tr><td colspan='3' style='text-align:right;'><br/><input type='button' class='btn-style right' id='b_step2' value='Suivant >' /></td></tr>
+	</tbody>
+	<tbody id='step3' class='hidden'>
+		<tr id='ease' class='hidden'>
+			<th class='left'>J'ai obtenu mon agrément ... ?</th>
+			<td>{{ form_widget(form.ease) }}</td>
+			<td class='form_error'>{{ form_errors(form.ease) }}</td>
+		</tr>
+		<tr id='denial' class='hidden'>
+			<th class='left'>Comment avez vous fait pour adopter ?</th>
+			<td>{{ form_widget(form.denial) }}</td>
+			<td class='form_error'>{{ form_errors(form.denial) }}</td>
+		</tr>
+		<tr><td colspan='3' style='text-align:right;'><br/><input type='button' class='btn-style right' id='b_step3' value='Suivant >' /></td></tr>
+	</tbody>
+	<tbody id='step4' class='hidden'>
+		<tr>
+			<th class='left'>Je souhaite une adoption</th>
+			<td>{{ form_widget(form.type) }}</td>
+			<td class='form_error'>{{ form_errors(form.type) }}</td>
+		</tr>
+		<tr>
+			<th class='left'>Je souhaite adopter</th>
+			<td>{{ form_widget(form.age) }}</td>
+			<td class='form_error'>{{ form_errors(form.age) }}</td>
+		</tr>
+		<tr><td colspan='3' style='text-align:right;'><br/><input type='button' class='btn-style right' id='b_step4' value='Suivant >' /></td></tr>
+	</tbody>
+	<tbody id='step5' class='hidden'>
+		<tr>
+			<th class='left'>Je souhaite adopter</th>
+			<td>
+				<ol id='french' class='selectable'>
+					<li class='ui-widget-content' id='oui'>En France</li>
+					<li class='ui-widget-content' id='non'>A l'étranger</li>
+				</ol>
+				{{ form_widget(form.french) }}
+			</td>
+			<td class='form_error'>{{ form_errors(form.french) }}</td>
+		</tr>
+		<tr id='countries' class='hidden'>
+			<th class='left'>Dans quel pays je souhaite adopter ?<br/><span class='hint'>4 choix maximum</span></th>
+			<td>{{ form_widget(form.countries) }}</td>
+			<td class='form_error'>{{ form_errors(form.countries) }}</td>
+		</tr>
+		<tr><td colspan='3' style='text-align:right;'><br/><input type='button' class='btn-style right' id='b_step5' value='Suivant >' /></td></tr>
+	</tbody>
+	<tbody id='step6' class='hidden'>
+		<tr>
+			<th class='left'>J'ai déjà au moins un autre enfant</th>
+			<td>
+				<ol id='children' class='selectable'>
+					<li class='ui-widget-content' id='oui'>Oui</li>
+					<li class='ui-widget-content' id='non'>Non</li>
+				</ol>
+				{{ form_widget(form.children) }}
+			</td>
+			<td class='form_error'>{{ form_errors(form.children) }}</td>
+		</tr>
+	</tbody>
+	<tfoot class='hidden'>
+		<tr><th align='left'></th><td align='right'><br/>{{ form_rest(form) }}<input type='submit' class='btn-style right' id='next' value='Suivant >' /></td></tr>
+	</tfoot>
+</table>
+<script>
+$("#b_step1").click(function () {
+	$("#step1").hide(0);
+	$("#step2").show(0);
+});
+
+$("#b_step2").click(function () {
+	$("#step1").hide(0);
+	$("#step2").hide(0);
+	if (ease || denial) {
+		$("#step3").show(0);
+	} else {
+		$("#step4").show(0);
+	}
+});
+
+$("#b_step3").click(function () {
+	$("#step1").hide(0);
+	$("#step2").hide(0);
+	$("#step3").hide(0);
+	$("#step4").show(0);
+});
+
+$("#b_step4").click(function () {
+	$("#step1").hide(0);
+	$("#step2").hide(0);
+	$("#step3").hide(0);
+	$("#step4").hide(0);
+	$("#step5").show(0);
+});
+
+$("#b_step5").click(function () {
+	$("#step1").hide(0);
+	$("#step2").hide(0);
+	$("#step3").hide(0);
+	$("#step4").hide(0);
+	$("#step5").hide(0);
+	$("#step6").show(0);
+	$("#registration tfoot").show(0);
+});
+
+var ease = false;
+$(".selectable").selectable({
+    selected: function (event, ui) {
+        $("input#adoptante_"+ui.selected.parentNode.id).val(ui.selected.id);
+        switch (ui.selected.parentNode.id) {
+            case 'arrived':
+                if (ui.selected.id == 'oui') {
+                    $("#lasted").show();
+                    $("#ease").show();
+                    ease = true;
+                } else {
+                    $("#lasted").hide();
+                    $("#ease").hide();
+                    ease = false;
+                }
+                break;
+            case 'resort':
+                if (ui.selected.id == 'oui')
+                    $("#anotherway").hide();
+                else
+                    $("#anotherway").show();
+                break;
+            case 'french':
+                if (ui.selected.id == 'oui')
+                    $("#countries").hide();
+                else
+                    $("#countries").show();
+                break;
+        }
+    }
+});
+$('#adoptante_started').select2({
+    minimumResultsForSearch: -1,
+});
+
+$('#adoptante_lasted').select2({
+    minimumResultsForSearch: -1,
+});
+
+$('#adoptante_approval').select2({
+    minimumResultsForSearch: -1,
+}).on("change", function(e) {
+    if (typeof e.added != "undefined") {
+        if (e.added.id == 'adopt-approval-refuse')
+            $("#resort").show(0);
+    }
+    if (typeof e.removed != "undefined") {
+        if (e.removed.id == 'adopt-approval-refuse')
+            $("#resort").hide(0);
+    }
+});
+
+$('#adoptante_anotherway').select2({
+    minimumResultsForSearch: -1,
+});
+
+var denial = false;
+$('#adoptante_ease').select2({
+    minimumResultsForSearch: -1,
+}).on("change", function(e) {
+    if ((typeof e.added != "undefined") && (e.added != null)) {
+        if (e.added.id == 'adopt-ease-4') {
+        	denial = true;
+            $("#denial").show(0);
+        }
+    }
+    if ((typeof e.removed != "undefined") && (e.removed != null)) {
+        if (e.removed.id == 'adopt-ease-4') {
+        	denial = false;
+            $("#denial").hide(0);
+        }
+    }
+});
+
+$('#adoptante_denial').select2({
+    minimumResultsForSearch: -1,
+});
+
+$('#adoptante_type').select2({
+    minimumResultsForSearch: -1,
+});
+
+$('#adoptante_age').select2({
+    minimumResultsForSearch: -1,
+});
+
+if ($("#adopt_arrived").val())
+	$("#"+$("#adopt_arrived").val()).addClass("ui-selected");
+if ($("#adopt_resort").val())
+	$("#"+$("#adopt_resort").val()).addClass("ui-selected");
+if ($("#adopt_children").val())
+	$("#"+$("#adopt_children").val()).addClass("ui-selected");
+
+$('#adoptante_countries').select2({
+    minimumResultsForSearch: -1,
+	maximumSelectionSize: 4,
+	width: '300px',
+	placeholder: "Choisissez 4 pays maximum",
+});
+
+$(":input").prop('required',null);
+</script>

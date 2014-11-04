@@ -1,0 +1,10 @@
+Mommy\SecurityBundle\Entity\User:
+    properties:
+        email:
+            - Email:
+                message: "'{{ value }}' n'est pas un email valide."
+                checkMX: true
+        password:
+            - NotBlank: ~
+            - Length: 
+                min: 7

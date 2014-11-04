@@ -1,0 +1,25 @@
+<div>
+<h1>Mon réseau Mommy<span>Ville</span></h1>
+<div>
+	{% if network|length > 0 %}
+	{% for mom in network %}
+	<div data-id='{{ mom.id }}' class='net-item'>
+		{% if mom.photo|length > 0 %}
+		<img src='{{ mom.photo }}' class='miniature' />
+		{% else %}
+		<img src='/img/logos/mv-landeau-1000x1077.jpg' class='miniature' />
+		{% endif %}
+		<br/>
+		{{ mom.firstname }} {{ mom.lastname|slice(0,1) }}.
+	</div>
+	{% endfor %}
+	{% endif %}
+	<div class='right'><a href='#{{ path('club-my-net') }}' class='dark'>Voir tout mon réseau MommyVille</a></div>
+</div>
+	<script>
+	$(document).on('click', '.net-item', function () {
+		var id = $(this).attr('data-id');
+		window.location.hash = '#/profil/voir/'+id;
+	});
+	</script>
+</div>

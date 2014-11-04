@@ -1,0 +1,73 @@
+<div class='block'>
+	<div class='content' id='map'>
+		{{ google_map(map) }}
+		<p>{{ literal }}</p>
+		<h1 class='without-avatar'>Voici les derniers Professionnels inscrits</h1>
+		<table>
+		{% for key,pro in pros %}
+		<tr data-id='{{ pro.id }}' class='marker'>
+			<td rowspan='2'>
+				<img src='/img/icones/map-marker-{{ key+1 }}.png' />
+			</td>
+			<td rowspan='2'>
+				{% if pro.photo|length > 0 %}
+				<img src='{{ pro.photo }}' class='left miniature' />
+				{% else %}
+				<img src='/img/logos/mv-landeau-1000x1077.jpg' class='left miniature' />
+				{% endif %}
+			</td>
+			<th>{{ pro.name }}</th>
+			<td>{{ pro.activity.descfr }}</td>
+		</tr>
+		<tr>
+			<td colspan='2'>{{ pro.address.literal }}</td>
+		</tr>
+		{% endfor %}
+		</table>
+	</div>
+</div>
+<div class='block'>
+	<div class='content'>
+		<select style="width:300px" id="activity">
+			<option></option>
+			{% for category in categories %}
+			<optgroup label="{{ category }}">
+				{% for id, activity in activities[category] %}
+				<option value="{{ id }}">{{ activity }}</option>
+				{% endfor %}
+			</optgroup>
+			{% endfor %}
+		</select>
+		<div class='clear'></div>
+		<div id='results'></div>
+	</div>
+</div>
+<script>
+$(".marker").click(function(event) {
+	window.location.hash = '#/page/voir/'+$(this).attr('data-id');
+});
+$('#activity').select2({
+	minimumInputLength: 2,
+	width: 'element',
+	placeholder: 'Sélectionnez une activité',
+}).on("change", function(e) {
+	e.val;
+	event.preventDefault();
+	$("#loading").show();
+	$.ajax({
+		url: '/page/recherche/'+e.val,
+		type: 'GET',
+	})
+	.done(function (data) {
+//$("#results").html(data);
+		$("#results").stop().empty().append(data).fadeIn('slow');
+		$("#loading").hide();
+	})
+	.fail(function (xhr, status, error) {
+console.log(xhr.responseText);
+		validationDialog(xhr.responseText, '');
+		$("#loading").hide();
+	});
+});
+
+</script>

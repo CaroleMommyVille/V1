@@ -1,0 +1,56 @@
+<h1>Mommy<span>Club</span></h1>
+<div>
+	<div class='left-block' id='last' data-id=''>
+	</div>
+	<div style='width:100%;text-align:right;'>
+{#		<span class='hint'>Tous les nouveaux membres sur MommyClub</span><br/> #}
+		<span id='prev-club-member' class='prev'></span> <span id='next-club-member' class='next'></span>
+	</div>
+	<script>
+	var members = [],
+		i = 0,
+		pos = 0;
+	{% for member in members %}
+	$.ajax({
+		url: '/profil/fiche/{{member}}',
+		type: 'GET',
+		async: false,
+	}).done(function (user) {
+		members[i++] = user;
+	});
+	{% endfor %}
+	function displayLast(pos) {
+		div = '';
+		if (members[pos].photo !== null)
+			div += "<img src='"+members[pos].photo+"' class='vignette left' />"
+		else
+			div += "<img src='/img/logos/mv-landeau-1000x1077.jpg' class='vignette left' />"
+		div += "<h2>"+members[pos].name+"</h2><br/>"
+			+ members[pos].age+" ans<br/>"
+			+ members[pos].title+"<br/>";
+		if (members[pos].city)
+			div += members[pos].city;
+		$('#last').empty().html(div);
+		$('#last').attr('data-id', members[pos].id);
+	}
+	displayLast(pos);
+	$('#prev-club-member').click(function(event) {
+		if (pos == 0) pos = members.length - 1;
+		else pos--;
+		displayLast(pos);
+	});
+	$('#next-club-member').click(function(event) {
+		if (pos == ( members.length - 1)) pos = 0;
+		else pos++;
+		displayLast(pos);
+	});
+	var timerId = setInterval(function() {
+		if (pos == ( members.length - 1)) pos = 0;
+		else pos++;
+		displayLast(pos);
+	}, 6000);
+	$('#last').click(function(event) {
+		window.location.hash = '#/profil/voir/'+$(this).attr('data-id');
+	});
+	</script>
+</div>

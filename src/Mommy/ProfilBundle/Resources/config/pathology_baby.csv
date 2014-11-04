@@ -1,0 +1,17 @@
+"pathobb-alcool","Alcoolisation fœtale","",true
+"pathobb-bec","Bec de lèvre et fente palatine","",true
+"pathobb-squelette","Anomalie du squelette","PathologyBabySkel",true
+"pathobb-cardiopathie","Cardiopathie","",true
+"pathobb-hypotrophie","Hypotrophie fœtale ","",true
+"pathobb-yeux","Malformation des yeux","PathologyBabyEye",true
+"pathobb-oreilles","Malformations des oreilles","PathologyBabyEar",true
+"pathobb-mucoviscidose","Mucoviscidose","",true
+"pathobb-sevrage","Sevrage néonatal","",true
+"pathobb-spina","Spina-Bifida","",true
+"pathobb-down","Syndrome de Down","",true
+"pathobb-teratogenes","Tératogènes","",true
+"pathobb-tube-neural","Trouble du tube neural","PathologyBabyNerves",true
+"pathobb-genital","Troubles appareil génital","PathologyBabyGenital",true
+"pathobb-digestif","Troubles de l'appareil digestif",'PathologyBabyDigestive",true
+"pathobb-poumons","Troubles pulmonaires","PathologyBabyLung",true
+"pathobb-vessie","Troubles vessie/rein","PathologyBabyBladder",true

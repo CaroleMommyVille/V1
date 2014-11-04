@@ -1,0 +1,68 @@
+<div class='block'>
+	<div class='content' id='club'>
+		<h1 class='without-avatar'>Voici tous les évènements proposés par vos MommyClubs</h1>
+		<table>
+			<tr data-id='{{ date.id }}'>
+				<td rowspan='3'>
+					{% if date.club.photo|length > 0 %}
+					<img src='{{ date.club.photo }}' />
+					{% else %}
+					<img src='/img/logos/mv-landeau-1000x1077.jpg' />
+					{% endif %}
+				</td>
+				<th>{{ date.club.name }}</th>
+			</tr>
+			<tr data-id='{{ date.id }}'>
+				<th>{{ date.name }}</th>
+			</tr>
+			<tr data-id='{{ date.id }}'>
+				<td>{{ date.date|date("d/m/Y") }}</td>
+			</tr>
+			<tr data-id='{{ date.id }}'>
+				<td>{{ date.desc_fr }}</td>
+				<td>{{ date.address.literal }}</td>
+			</tr>
+		</table>
+	</div>
+</div>
+{% for attendee in attendees %}
+<div class='id'>
+	<img src='{{ attendee.member.photo }}' class='left' />
+	<p>{{ attendee.member.firstname }} {{ attendee.member.name|slice(0,1) }}.</p>
+	<p>{{ attendee.member.age }} ans <span data-id='{{ attendee.member.id }}' class='add-friend' title='Rajouter à vos amies'></span> <span data-id='{{ attendee.member.id }}' class='add-network' title='Rajouter à votre réseau'></span></p>
+</div>
+{% endfor %}
+<script>
+$(".add-friend").click(function(event) {
+	event.preventDefault();
+	$("#loading").show();
+	var id = $(this).attr('data-id');
+	$.ajax({
+		url: '/profil/amis/ajouter/'+id,
+		type: 'GET',
+	})
+	.done(function (data) {
+		$("#loading").hide();
+	})
+	.fail(function (xhr, status, error) {
+console.log(xhr.responseText);
+		$("#loading").hide();
+	});
+}).tooltip();
+$(".add-network").click(function(event) {
+	event.preventDefault();
+	$("#loading").show();
+	var id = $(this).attr('data-id');
+	$.ajax({
+		url: '/profil/reseau/ajouter/'+id,
+		type: 'GET',
+	})
+	.done(function (data) {
+		$("#loading").hide();
+	})
+	.fail(function (xhr, status, error) {
+console.log(xhr.responseText);
+		$("#loading").hide();
+	});
+}).tooltip();
+</script>

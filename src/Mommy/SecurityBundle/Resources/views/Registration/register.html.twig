@@ -1,0 +1,44 @@
+<div class='block'>
+	<div class='content'>
+		<div id='registration_reset'>
+			<ul>
+				<li><a href='#{{ path('security-register-reset') }}'>Réinitialiser l'inscription</a></li>
+				{% if step != 'identity' %}<li><a href='#{{ path('security-register-remember') }}'>Mémoriser votre inscription</a></li>{% endif %}
+			</ul>
+		</div>
+		<h1 class='registration'>Nouvelle sur MommyVille ? Inscrivez-vous</h1>
+		<form id='registration' action='/login/register' method='post'>
+		{% include 'MommySecurityBundle:Form:' ~ step ~ '.html.twig' %}
+		</form>
+		<p></p>
+		<p class='hint middle'>Les données renseignées dans le questionnaire sont strictement confidentielles. Elles ne seront pas dévoilées aux autres membres, elles vont simplement nous permettre de vous proposer les membres ayant un profil s’approchant le plus du vôtre et de vous proposer de rejoindre les MommyClubs les plus adaptés à votre profil. Vous pourrez ensuite, sur votre MommyProfil, mettre à jour les informations que vous souhaitez partager avec la communauté MommyVille.</p>
+	</div>
+</div>
+{% if step == 'identity' %}
+<div class='block'>
+	<div class='content'>
+		<h1 class='registration'>MommyVille, c'est quoi ?</h1>
+		<center><video width="640" height="360" controls preload='auto'>
+			<source src='{{ asset('/videos/prez.mp4') }} type='video/mp4' />
+			<source src='{{ asset('/videos/prez.webm') }} type='video/webm' />
+			<iframe width="640" height="360" src="//www.youtube.com/embed/fikDOSwHygI" frameborder="0" allowfullscreen></iframe>
+		</video></center>
+	</div>
+</div>
+{% endif %}
+<script>
+$.getScript( "{{ asset('bundles/mommysecurity/js/signup.js') }}");
+{% if form.vars['errors'] is not empty %}
+	var msg = '<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>{{ form_errors(form) }}</p>';
+	msg = msg.replace(' ;; ', "\n");
+	validationDialog('{{ error.title }}', msg);
+{% endif %}
+{% if error.code is defined %}
+	{% if (error.code != 'ERR_OK') and (error.code != 'ERR_THANKS') %}
+$.get('/error/{{ error.code }}.json', function(error) { 	
+	var msg = '<p><span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>{{ error.message }}</p>';
+	validationDialog('{{ error.title }}', msg);
+});
+	{% endif %}
+{% endif %}
+</script>
