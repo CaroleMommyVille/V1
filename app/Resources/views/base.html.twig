@@ -11,9 +11,10 @@
         <link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" media="all"/>
         <link rel="stylesheet" type="text/css" media="screen" href="//cdnjs.cloudflare.com/ajax/libs/select2/3.5.0/select2.min.css" />
         <link rel="stylesheet" href="{{ asset('/css/jquery.mCustomScrollbar.min.css') }}" />
-        {% stylesheets '@MommyUIBundle/Resources/public/css/*.css' filter='yui_css' output='css/main.css' %}
+        {#{% stylesheets '@MommyUIBundle/Resources/public/css/*.css' filter='yui_css' output='css/main.css' %}
         <link rel="stylesheet" type="text/css" media="screen" href="{{ asset(asset_url) }}" />
-        {% endstylesheets %}
+        {% endstylesheets %}#}
+        <link rel="stylesheet" href="{{ asset('/css/mv.css') }}" />
         {% endblock %}
         <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
         <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon-iphone-60x60.png') }}">
@@ -59,9 +60,12 @@
         <script src="{{ asset('/js/jquery.mCustomScrollbar.concat.min.js') }}"></script>
         <script src="{{ asset('/js/jquery.hoverCarousel.js') }}"></script>
         <script src="{{ asset('/third-party/liveurl/jquery.liveurl.js') }}"></script>
-        {% javascripts '@MommyUIBundle/Resources/public/js/*.js' filter='yui_js' output='js/main.js' %}
+        {# javascripts '@MommyUIBundle/Resources/public/js/*.js' filter='yui_js' output='js/main.js' %}
         <script src="{{ asset(asset_url) }}"></script>
-        {% endjavascripts %}
+        {% endjavascripts #}
+{#        <script src="{{ asset('/js/main.js') }}"></script>#}
+        <script src="{{ asset('/js/mv.js') }}"></script>
+        <script src="{{ asset('/js/main_part_1_mv_1.js') }}"></script>
         {% block javascripts %}
         {% endblock %}
         <script>(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)})(window,document,'script','//www.google-analytics.com/analytics.js','ga');ga('create', 'UA-54989370-1', 'auto');ga('require', 'displayfeatures');ga('send', 'pageview');</script>

@@ -7,9 +7,10 @@
         <link rel="stylesheet" type="text/css" href="//code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" media="all"/>
         <link rel="stylesheet" type="text/css" href="{{ asset('css/jquery.maxlength.css') }}" media="all" />
         <link rel="stylesheet" type="text/css" href="{{ asset('/css/select2-3.4.8.css') }}">
-        {% stylesheets '@MommyUIBundle/Resources/public/css/*.css' filter='yui_css' output='css/main.css' %}
+        {#{% stylesheets '@MommyUIBundle/Resources/public/css/*.css' filter='yui_css' output='css/main.css' %}
         <link rel="stylesheet" type="text/css" media="screen" href="{{ asset(asset_url) }}" />
-        {% endstylesheets %}
+        {% endstylesheets %}#}
+        <link rel="stylesheet" href="{{ asset('/css/mv.css') }}" />
         {% endblock %}
         <link rel="shortcut icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
         <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon-iphone-60x60.png') }}">
@@ -64,9 +65,12 @@
         <script src="{{ asset('/js/jquery.fancybox.pack.js') }}?v=2.1.5"></script>
         <script src="{{ asset('/js/jquery.fancybox-buttons.js') }}"></script>
         <script rc="{{ asset('/js/jquery.fancybox-thumbs.js') }}"></script>
-        {% javascripts '@MommyUIBundle/Resources/public/js/*.js' filter='yui_js' output='js/main.js' %}
+        {# javascripts '@MommyUIBundle/Resources/public/js/*.js' filter='yui_js' output='js/main.js' %}
         <script src="{{ asset(asset_url) }}"></script>
-        {% endjavascripts %}
+        {% endjavascripts #}
+        <script src="{{ asset('/js/main.js') }}"></script>
+        <script src="{{ asset('/js/mv.js') }}"></script>
+        <script src="{{ asset('/js/main_part_1_mv_1.js') }}"></script>
         <script type="text/javascript">(function(w,d){var a=function(){var b=d.createElement('script');b.type='text/javascript';if(undefined!==b.setAttribute){b.setAttribute('async','async');}b.src='//'+((w.location.protocol==='https:')?'s3.amazonaws.com/cdx-radar/':'radar.cedexis.com/')+'01-14230-radar10.min.js';d.body.appendChild(b);};if(w.addEventListener){w.addEventListener('load',a,false);}else if(w.attachEvent){w.attachEvent('onload',a);}}(window,document));</script>
         {% block javascripts %}
         {% endblock %}
